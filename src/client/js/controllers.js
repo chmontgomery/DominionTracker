@@ -5,7 +5,7 @@
   ]);
 
   module.controller('HomeController', ['$scope',
-    function ($scope) {
+    function (/*$scope*/) {
       console.log('Hello world!');
     }]);
 })();

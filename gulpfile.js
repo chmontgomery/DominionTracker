@@ -28,7 +28,35 @@ var gulp = require('gulp'),
   ],
   dist = './dist/public';
 
-require('load-common-gulp-tasks')(gulp);
+require('load-common-gulp-tasks')(gulp, {
+  paths: {
+    lint: [
+      './*.js',
+      './src/controllers/**/*.js',
+      './src/lib/**/*.js',
+      './test/**/*.js'
+    ],
+    felint: [
+      './src/client/**/*.js'
+    ],
+    cover: [
+      './src/controllers/**/*.js',
+      './src/lib/**/*.js',
+      './server.js'
+    ],
+    test: [
+      './test/**/*.js'
+    ]
+  },
+  jshintrc: {
+    server: '.jshintrc',
+    client: 'client.jshintrc'
+  }
+});
+
+// redefine since instanbul doesn't support ES6
+gulp.task('ci', 'Lint, tests and test coverage', ['lint', 'felint', 'test']);
+gulp.task('ci-watch', false, ['lint-watch', 'felint-watch', 'test-watch']);
 
 gulp.task('develop', 'Watch and restart server on change', ['build', 'watch'], function () {
   nodemon({
