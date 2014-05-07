@@ -6,7 +6,10 @@
   <link href="/public/styles/all.css" rel="stylesheet" type="text/css">
 </head>
 <body ng-app="DominionTracker">
-{% block content %}{% endblock %}
+<navbar></navbar>
+<div class="container">
+  {% block content %}{% endblock %}
+</div>
 <script src="/public/jquery/dist/jquery.js"></script>
 <script src="/public/angular/angular.js"></script>
 <script src="/public/bootstrap/dist/js/bootstrap.js"></script>
