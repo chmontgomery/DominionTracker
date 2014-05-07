@@ -1,0 +1,41 @@
+{
+  "name": "DominionTracker",
+  "version": "0.0.0",
+  "description": "app to track dominion stats",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --harmony server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chmontgomery/DominionTracker.git"
+  },
+  "keywords": [
+    "dominion"
+  ],
+  "author": "Chris Montgomery",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chmontgomery/DominionTracker/issues"
+  },
+  "homepage": "https://github.com/chmontgomery/DominionTracker",
+  "dependencies": {
+    "koa": "^0.6.0",
+    "koa-common": "^1.2.0",
+    "koa-route": "^1.1.4",
+    "koa-static": "^1.4.5",
+    "co-views": "^0.2.0",
+    "bower": "^1.3.3",
+    "gulp": "^3.6.2",
+    "gulp-util": "^2.2.14",
+    "gulp-concat": "^2.2.0",
+    "gulp-nodemon": "^1.0.2",
+    "gulp-clean": "^0.2.4",
+    "gulp-livereload": "^1.5.0",
+    "chalk": "^0.4.0",
+    "gulp-less": "^1.2.3",
+    "load-common-gulp-tasks": "^0.1.8",
+    "swig": "~1.3.2"
+  }
+}

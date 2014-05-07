@@ -1,0 +1,34 @@
+{
+  "name": "DominionTracker",
+  "version": "0.0.0",
+  "authors": [
+    "Chris Montgomery <christopher.montgomery@dowjones.com>"
+  ],
+  "description": "app to track dominion stats",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "dominion"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "angular": "~1.2.16",
+    "bootstrap": "~3.1.1",
+    "moment": "~2.6.0",
+    "lodash": "~2.4.1",
+    "angular-route": "~1.2.16",
+    "angular-animate": "~1.2.16",
+    "angular-sanitize": "~1.2.16",
+    "angular-strap": "~2.0.2"
+  }
+}
