@@ -9,6 +9,7 @@ var koa = require('koa'),
   app = koa(),
   mongoose = require('mongoose'),
   homeController = require('./src/controllers/home'),
+  usersController = require('./src/controllers/users'),
   gameController = require('./src/controllers/game'),
   port,
   User,
@@ -23,7 +24,11 @@ db.once('open', function () {
   console.log('connected to mongo successfully');
   var userSchema = mongoose.Schema({
     firstName: String,
-    lastName: String
+    lastName: String,
+    wins: Number,
+    loses: Number,
+    ties: Number,
+    nickname: String
   });
   userSchema.methods.fullName = function () {
     return this.firstName + " " + this.lastName;
@@ -51,6 +56,7 @@ app.use(common.responseTime());
 app.use(serve(path.join(__dirname, '/dist')));
 
 app.use(route.get('/', homeController));
+app.use(route.get('/usersPage', usersController));
 
 //game routes
 app.use(route.get('/game', gameController.all));
@@ -79,6 +85,10 @@ app.use(route.post('/users', function *() {
   var userPost = yield parse(this);
   assert(userPost.firstName);
   assert(userPost.lastName);
+  userPost.wins = userPost.wins || 0;
+  userPost.loses = userPost.loses || 0;
+  userPost.ties = userPost.ties || 0;
+  userPost.nickname = userPost.nickname || null;
   var user = yield User.create(userPost);
   this.body = user;
 }));

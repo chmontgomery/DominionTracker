@@ -20,4 +20,13 @@
     };
   });
 
+    module.directive('users', function () {
+        return {
+            restrict: "E",
+            replace: true,
+            controller: 'UsersController',
+            templateUrl: '/public/partials/users.html'
+        };
+    });
+
 })();
