@@ -3,8 +3,8 @@ var gulp = require('gulp'),
   clean = require('gulp-clean'),
   less = require('gulp-less'),
   livereload = require('gulp-livereload'),
-  chalk = require('chalk'),
   concat = require('gulp-concat'),
+  gutil = require('gulp-util'),
   publicFiles = [
     './bower_components/angular/angular.js',
     './bower_components/angular-route/angular-route.js',
@@ -70,7 +70,7 @@ gulp.task('develop', 'Watch and restart server on change', ['build', 'watch'], f
     .on('change', ['ci-watch'])
     .on('restart', function () {
       var d = new Date();
-      console.log(chalk.bgBlue('server restarted at ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds()));
+      console.log(gutil.colors.bgBlue('server restarted at ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds()));
     });
 });
 
