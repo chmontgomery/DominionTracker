@@ -11,7 +11,9 @@ var koa = require('koa'),
   homeController = require('./src/controllers/home'),
   gameController = require('./src/controllers/game'),
   port,
-  User;
+  User,
+  Game,
+  Score;
 
 mongoose.connect('mongodb://localhost/dominiontracker');
 
@@ -27,6 +29,20 @@ db.once('open', function () {
     return this.firstName + " " + this.lastName;
   };
   User = mongoose.model('User', userSchema);
+
+  var gameSchema = mongoose.Schema({
+    date: { type: Date, default: Date.now },
+    cardSet: Array
+  });
+  Game = mongoose.model('Game', gameSchema);
+
+  var scoreSchema = mongoose.Schema({
+    game: mongoose.Schema.Types.ObjectId,
+    user: mongoose.Schema.Types.ObjectId,
+    points: Number,
+    result: String
+  });
+  Score = mongoose.model('Score', scoreSchema);
 });
 
 app.use(common.logger());
