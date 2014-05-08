@@ -10,7 +10,6 @@ var koa = require('koa'),
   mongoose = require('mongoose'),
   homeController = require('./src/controllers/home'),
   usersController = require('./src/controllers/users'),
-  gameController = require('./src/controllers/game'),
   port,
   User,
   Game,
@@ -37,17 +36,14 @@ db.once('open', function () {
 
   var gameSchema = mongoose.Schema({
     date: { type: Date, default: Date.now },
-    cardSet: Array
+    cardSet: Array,
+    scores: [{
+      user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+      points: Number,
+      result: String //win,loss,tie
+    }]
   });
   Game = mongoose.model('Game', gameSchema);
-
-  var scoreSchema = mongoose.Schema({
-    game: mongoose.Schema.Types.ObjectId,
-    user: mongoose.Schema.Types.ObjectId,
-    points: Number,
-    result: String
-  });
-  Score = mongoose.model('Score', scoreSchema);
 });
 
 app.use(common.logger());
@@ -59,11 +55,35 @@ app.use(route.get('/', homeController));
 app.use(route.get('/usersPage', usersController));
 
 //game routes
-app.use(route.get('/game', gameController.all));
-app.use(route.get('/game/:id', gameController.get));
-app.use(route.post('/game', gameController.add));
-app.use(route.put('/game/:id', gameController.update));
+app.use(route.get('/games', function *() {
+  var games =  yield Game.find().populate('scores.user').exec();
+  this.body = games;
+}));
 
+app.use(route.get('/games/:id', function *(id) {
+  var game = yield Game.findById(id).populate('scores.user').exec();
+  this.body = game;
+}));
+
+app.use(route.put('/games/:id', function *(id) {
+  var gamePut = yield parse(this);
+  var game = yield Game.findByIdAndUpdate(id, gamePut).exec();
+  this.body = game;
+}));
+
+app.use(route.del('/games/:id', function *(id) {
+  var game = yield Game.findByIdAndRemove(id).exec();
+  this.body = game;
+}));
+
+app.use(route.post('/games', function *() {
+  var gamePost = yield parse(this);
+  assert(gamePost.cardSet);
+  var game = yield Game.create(gamePost);
+  this.body = game;
+}));
+
+//user routes
 app.use(route.get('/users', function *() {
   var user = yield User.find().exec();
   this.body = user;
