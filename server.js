@@ -22,7 +22,11 @@ db.once('open', function () {
   console.log('connected to mongo successfully');
   var userSchema = mongoose.Schema({
     firstName: String,
-    lastName: String
+    lastName: String,
+    wins: Number,
+    loses: Number,
+    ties: Number,
+    nickname: String
   });
   userSchema.methods.fullName = function () {
     return this.firstName + " " + this.lastName;
@@ -65,6 +69,10 @@ app.use(route.post('/users', function *() {
   var userPost = yield parse(this);
   assert(userPost.firstName);
   assert(userPost.lastName);
+  userPost.wins = userPost.wins || 0;
+  userPost.loses = userPost.loses || 0;
+  userPost.ties = userPost.ties || 0;
+  userPost.nickname = userPost.nickname || null;
   var user = yield User.create(userPost);
   this.body = user;
 }));
