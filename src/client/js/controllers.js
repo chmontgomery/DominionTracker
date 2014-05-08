@@ -11,6 +11,6 @@
 
     module.controller('UsersController', ['$scope',
     function (/*$scope*/) {
-        console.log('Hello world!');
+
         }]);
 })();

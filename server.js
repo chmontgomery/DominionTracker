@@ -8,8 +8,8 @@ var koa = require('koa'),
   assert = require('assert'),
   app = koa(),
   mongoose = require('mongoose'),
+  render = require('./src/lib/render'),
   homeController = require('./src/controllers/home'),
-  usersController = require('./src/controllers/users'),
   gameController = require('./src/controllers/game'),
   port,
   User;
@@ -36,7 +36,12 @@ app.use(common.responseTime());
 app.use(serve(path.join(__dirname, '/dist')));
 
 app.use(route.get('/', homeController));
-app.use(route.get('/usersPage', usersController));
+app.use(route.get('/usersPage', function* () {
+        //get all users
+        var allUsers = yield User.find().exec();
+        console.log(allUsers);
+        this.body = yield render('users', { users : allUsers });
+}));
 
 //game routes
 app.use(route.get('/game', gameController.all));

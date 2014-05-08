@@ -25,7 +25,8 @@
             restrict: "E",
             replace: true,
             controller: 'UsersController',
-            templateUrl: '/public/partials/users.html'
+            templateUrl: '/public/partials/users.html',
+            scope: { users : "@" }
         };
     });
 
