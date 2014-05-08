@@ -43,8 +43,9 @@
     "gulp-less": "^1.2.3",
     "load-common-gulp-tasks": "^0.1.8",
     "swig": "~1.3.2",
+    "co-body": "0.0.1",
+    "lodash": "~2.4.1",
     "mongoose": "~3.8.8",
-    "assert": "~1.1.1",
-    "co-body": "0.0.1"
+    "assert": "~1.1.1"
   }
 }

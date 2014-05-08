@@ -10,6 +10,7 @@ var koa = require('koa'),
   mongoose = require('mongoose'),
   homeController = require('./src/controllers/home'),
   usersController = require('./src/controllers/users'),
+  gameController = require('./src/controllers/game'),
   port,
   User;
 
@@ -36,6 +37,12 @@ app.use(serve(path.join(__dirname, '/dist')));
 
 app.use(route.get('/', homeController));
 app.use(route.get('/usersPage', usersController));
+
+//game routes
+app.use(route.get('/game', gameController.all));
+app.use(route.get('/game/:id', gameController.get));
+app.use(route.post('/game', gameController.add));
+app.use(route.put('/game/:id', gameController.update));
 
 app.use(route.get('/users', function *() {
   var user = yield User.find().exec();
