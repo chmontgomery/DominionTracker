@@ -3,3 +3,4 @@
 /dist
 /bower_components
 /test/test-results.xml
+/npm-debug.log
