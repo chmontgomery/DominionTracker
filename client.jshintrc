@@ -84,6 +84,7 @@
     "unescape": true,
     "waits": true,
     "waitsFor": true,
-    "angular": true
+    "angular": true,
+    "_": true
   }
 }
