@@ -30,4 +30,16 @@
         };
     });
 
+  module.directive('startGame', function () {
+    return {
+      restrict: "E",
+      replace: true,
+      controller: 'startGameController',
+      templateUrl: '/public/partials/startGame.html',
+      scope: {
+        availableUsersString: '@'
+      }
+    };
+  });
+
 })();

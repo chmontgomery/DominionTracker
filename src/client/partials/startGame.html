@@ -1,0 +1,71 @@
+<div>
+  <h1>
+    1.
+    <button type="button" class="btn btn-success" ng-click="generateCards()">
+      <span class="glyphicon glyphicon-random"></span> {{ generateCardsBtnTxt }}
+    </button>
+  </h1>
+
+  <div ng-show="cards">
+    {{ cards }}
+  </div>
+
+  <h1>2. Add Players</h1>
+
+  <div class="row">
+    <div class="col-lg-6">
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Available Players</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-condensed table-striped">
+            <tr ng-repeat="user in availableUsers track by $index" ng-class="user.isSelected ? 'available-player-selected' : ''">
+              <td>{{ user.firstName }} {{ user.lastName }}</td>
+              <td>
+                <button type="button" class="btn btn-success" ng-click="addUser(user._id)" ng-disabled="user.isSelected">
+                  <span class="glyphicon glyphicon-plus"></span> Add
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-lg-6">
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Players In Game</h3>
+        </div>
+        <div class="panel-body">
+
+          <div ng-if="playersInGame.length === 0">
+            None, yet.
+          </div>
+          <div ng-if="playersInGame.length > 0">
+            <table class="table table-condensed table-striped">
+              <tr ng-repeat="user in playersInGame track by $index">
+                <td>{{ user.firstName }} {{ user.lastName }}</td>
+                <td>
+                  <button type="button" class="btn btn-danger" ng-click="removePlayer(user._id)">
+                    <span class="glyphicon glyphicon-minus"></span> Remove
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <h1>
+    3. <button type="button" class="btn btn-success" ng-click="startGame()">Start Game!</button>
+  </h1>
+
+</div>

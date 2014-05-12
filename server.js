@@ -6,6 +6,7 @@ var koa = require('koa'),
   parse = require('co-body'),
   path = require('path'),
   assert = require('assert'),
+  render = require('./src/lib/render'),
   app = koa(),
   mongoose = require('mongoose'),
   render = require('./src/lib/render'),
@@ -61,6 +62,13 @@ app.use(route.get('/usersPage', function* () {
         this.body = yield render('users', { users : allUsers });
 }));
 
+app.use(route.get('/startGame', function* () {
+  var users = yield User.find().exec();
+  this.body = yield render('startGame', {
+    availableUsers: users
+  });
+}));
+
 //game routes
 app.use(route.get('/games', function *() {
   var games =  yield Game.find().populate('scores.user').exec();
@@ -92,8 +100,8 @@ app.use(route.post('/games', function *() {
 
 //user routes
 app.use(route.get('/users', function *() {
-  var user = yield User.find().exec();
-  this.body = user;
+  var users = yield User.find().exec();
+  this.body = users;
 }));
 app.use(route.get('/users/:id', function *(id) {
   var user = yield User.findById(id).exec();
