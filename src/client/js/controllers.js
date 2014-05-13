@@ -11,7 +11,8 @@
 
   module.controller('UsersController', ['$scope', '$alert', '$http', '$modal',
     function ($scope, $alert, $http, $modal) {
-
+        var confirmDeleteModal = $modal({title: 'Delete User', template: '/public/partials/confirmDelete.html', show: false, scope: $scope});
+        var editUserModal = {};
         var errorAlert = {
             title: 'SOMETHING WENT WRONG',
             content: 'OH NOES',
@@ -25,16 +26,54 @@
 
       $scope.users = JSON.parse($scope.usersString);
       $scope.submit = function() {
-        $http.post('/users/', $scope.user)
-            .success(function() {
+        var submitUrl = '/users/';
+
+          if($scope.user !== undefined && $scope.user._id !== undefined && $scope.user._id.length > 0)
+          {
+              submitUrl += $scope.user._id;
+              $http.put(submitUrl, $scope.user)
+                  .success(function() {
+                  window.location.reload();
+              }).error(function () {
+                  $alert(errorAlert);
+              });
+          }
+          else {
+              $http.post(submitUrl, $scope.user)
+                  .success(function() {
+                      window.location.reload();
+                  }).error(function () {
+                      $alert(errorAlert);
+                  });
+          }
+
+      };
+      $scope.editUser = function(id) {
+          var getUrl = '/users/' + id;
+          $http.get(getUrl).success(function(data) {
+            $scope.user = data;
+          }).error(function() {
+              $alert(errorAlert);
+          });
+          //$scope.user = user;
+          editUserModal = $modal({title: 'Edit User', template: '/public/partials/editUser.html', show: true, scope: $scope});
+      };
+      $scope.deleteUserConfirm = function(id) {
+        $scope.UserToDeleteId = id;
+        confirmDeleteModal.show();
+      };
+      $scope.deleteUser = function(id) {
+        var deleteUrl = '/users/' + id;
+
+        $http.delete(deleteUrl, null)
+          .success(function() {
                 window.location.reload();
             }).error(function () {
                 $alert(errorAlert);
             });
       };
-      $scope.deleteUserConfirm = function(id) {
-        var deleteConfirm = $modal({title: 'Delete User', template: '/public/partials/confirmDelete.html', show: true});
-      };
+
+
     }]);
 
   module.controller('startGameController', ['$scope', '$alert', '$http',

@@ -4,14 +4,14 @@
             <form name="newUserForm" ng-submit="submit()">
                 <div class="modal-header">
                     <button type="button" class="close" ng-click="$hide()">&times;</button>
-                    <h4 class="modal-title">New User</h4>
+                    <h4 class="modal-title">{{title}}</h4>
                 </div>
                 <div class="modal-body">
 
                     <div class="form-group">
                         <label for="firstName">First Name</label> <input required type="text" value="{{user.firstName}}" ng-model="user.firstName" name="firstName" id="firstName" /><br/>
                         <label for="lastName">Last Name</label> <input required type="text" value="{{user.lastName}}" ng-model="user.lastName" name="lastName" id="lastName" />
-                        <input type="hidden" value="{{user.id}}" />
+                        <input type="hidden" value="{{user._id}}" ng-model="user._id" />
                     </div>
                 </div>
                 <div class="modal-footer">
