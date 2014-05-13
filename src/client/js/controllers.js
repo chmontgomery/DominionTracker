@@ -26,7 +26,19 @@
       $scope.generateCards = function() {
         console.log('generating cards...');
         //TODO
-        $scope.cards = setGenerator.generateSet(10);
+        var cards = setGenerator.generateSet(10);
+        $scope.cards = _.mapValues(cards, function(card, cardName) {
+          var newCard = {};
+          _.forEach(_.keys($scope.cardSets), function(setName) {
+            if (DominionSetGeneratorData.cardData[cardName][setName]) {
+              newCard.setName = setName;
+            }
+          });
+          newCard.cost = _.findKey(DominionSetGeneratorData.cardData[cardName], function(c, k) {
+            return k.indexOf('Cost') == 0;
+          })[4];
+          return newCard;
+        });
         $scope.generateCardsBtnTxt = 'Re-generate';
       };
       $scope.generateCardsBtnTxt = 'Generate Card Set';
