@@ -5,7 +5,7 @@
  *
  * Last update: Fri Jun 14 15:11:47 2013
  */
-
+/* jshint ignore:start */
 var DominionSetGeneratorData = {
   cardData: {
     'Alchemist' : {
@@ -31,7 +31,7 @@ var DominionSetGeneratorData = {
       'Chooser' : 1,
       'Medichainer' : 1,
       'Antiterminus' : 1
-    },
+    }, 
     'Apprentice' : {
       'Alchemy' : 1,
       'Cost5' : 1,
@@ -3622,3 +3622,4 @@ var DominionSetGeneratorData = {
     'Antiterminus' : 'Weakly at least 3'
   }
 };
+/* jshint ignore:end */

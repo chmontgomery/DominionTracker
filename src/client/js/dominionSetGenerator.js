@@ -38,6 +38,7 @@
  * @param {Number} maxW Weight for the 'maximum' threshhold.
  * @param {String} notes The 'notes' section.
  */
+/* jshint ignore:start */
 function DominionSetGeneratorAttributeData(min, max, minW, maxW, notes) {
   if (min === undefined) {
     this.min = 0;
@@ -1109,3 +1110,4 @@ DominionSetGenerator.prototype.completeUniformSet = function(maxSetSize) {
   return this.coreKingdom.cardset;
 
 };
+/* jshint ignore:end */

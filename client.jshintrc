@@ -85,6 +85,8 @@
     "waits": true,
     "waitsFor": true,
     "angular": true,
-    "_": true
+    "_": true,
+    "DominionSetGenerator": true,
+    "DominionSetGeneratorData": true
   }
 }

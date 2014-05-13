@@ -34,9 +34,12 @@
               newCard.setName = setName;
             }
           });
-          newCard.cost = _.findKey(DominionSetGeneratorData.cardData[cardName], function(c, k) {
-            return k.indexOf('Cost') == 0;
-          })[4];
+          var cost = _.findKey(DominionSetGeneratorData.cardData[cardName], function(c, k) {
+            return k.indexOf('Cost') === 0;
+          });
+          if (cost) {
+            newCard.cost = parseInt(cost[4]);
+          }
           return newCard;
         });
         $scope.generateCardsBtnTxt = 'Re-generate';
@@ -60,15 +63,20 @@
       };
       $scope.startGame = function() {
       };
-      $scope.$watch(function() { return _.keys($scope.cardSets).join(','); }, function() {
-        //reset owned cards on generator
-        var cardsToSelectFrom = _.transform(DominionSetGeneratorData.cardData, function(result, card, key) {
-          _.forEach(_.keys($scope.cardSets), function(setName) {
-            if (card[setName])
-              result[key] = 1;
+      $scope.$watch(
+        function() {
+          console.log(_.values($scope.cardSets).join(','));
+          return _.values($scope.cardSets).join('');
+        }, function() {
+          //reset owned cards on generator
+          var cardsToSelectFrom = _.transform(DominionSetGeneratorData.cardData, function(result, card, key) {
+            _.forEach(_.keys($scope.cardSets), function(setName) {
+              if ($scope.cardSets[setName] && card[setName]) {
+                result[key] = 1;
+              }
+            });
           });
-        });
-        setGenerator.setOwned(cardsToSelectFrom);
+          setGenerator.setOwned(cardsToSelectFrom);
       });
     }]);
 })();
