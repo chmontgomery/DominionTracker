@@ -1,7 +1,7 @@
 <div>
   <h1>
     Users
-    <button type="button" class="btn btn-success pull-right" data-template="/public/partials/newUser.html" bs-modal="modal">
+    <button type="button" class="btn btn-success pull-right" data-template="/public/partials/editUser.html" bs-modal="modal">
       <span class="glyphicon glyphicon-plus"></span> New
     </button>
   </h1>
@@ -9,6 +9,7 @@
     <tr ng-repeat="user in users">
       <td>{{user.firstName}}</td>
       <td>{{user.lastName}}</td>
+      <td><button class="btn btn-danger" ng-click="deleteUserConfirm(user._id)">Delete!</button></td>
     </tr>
   </table>
 </div>

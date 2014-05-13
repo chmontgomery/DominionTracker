@@ -23,9 +23,10 @@ var gulp = require('gulp'),
     './bower_components/bootstrap-additions/dist/bootstrap-additions.css',
     './bower_components/moment/moment.js',
     './bower_components/lodash/dist/lodash.js'
+
   ],
   resourceFiles = [
-    './src/client/**/*.{png,html,ico}'
+    './src/client/**/*.{png,html,ico,svg,ttf,woff}'
   ],
   dist = './dist/public';
 

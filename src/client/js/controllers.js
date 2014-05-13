@@ -9,8 +9,8 @@
       console.log('Hello world!');
     }]);
 
-  module.controller('UsersController', ['$scope', '$alert', '$http',
-    function ($scope, $alert, $http) {
+  module.controller('UsersController', ['$scope', '$alert', '$http', '$modal',
+    function ($scope, $alert, $http, $modal) {
 
         var errorAlert = {
             title: 'SOMETHING WENT WRONG',
@@ -24,14 +24,16 @@
         $scope.user = {};
 
       $scope.users = JSON.parse($scope.usersString);
-      $scope.submit = function()
-      {
+      $scope.submit = function() {
         $http.post('/users/', $scope.user)
             .success(function() {
                 window.location.reload();
             }).error(function () {
                 $alert(errorAlert);
             });
+      };
+      $scope.deleteUserConfirm = function(id) {
+        var deleteConfirm = $modal({title: 'Delete User', template: '/public/partials/confirmDelete.html', show: true});
       };
     }]);
 

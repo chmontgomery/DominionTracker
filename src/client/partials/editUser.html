@@ -9,8 +9,9 @@
                 <div class="modal-body">
 
                     <div class="form-group">
-                        <label for="firstName">First Name</label> <input required type="text" value="test" ng-model="user.firstName" name="firstName" id="firstName" /><br/>
-                        <label for="lastName">Last Name</label> <input required type="text" value="test" ng-model="user.lastName" name="lastName" id="lastName" />
+                        <label for="firstName">First Name</label> <input required type="text" value="{{user.firstName}}" ng-model="user.firstName" name="firstName" id="firstName" /><br/>
+                        <label for="lastName">Last Name</label> <input required type="text" value="{{user.lastName}}" ng-model="user.lastName" name="lastName" id="lastName" />
+                        <input type="hidden" value="{{user.id}}" />
                     </div>
                 </div>
                 <div class="modal-footer">
