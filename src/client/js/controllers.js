@@ -15,10 +15,18 @@
 
     }]);
 
-  module.controller('startGameController', ['$scope',
-    function ($scope) {
+  module.controller('startGameController', ['$scope', '$alert', '$http',
+    function ($scope, $alert, $http) {
       $scope.cardSets = {
         Base: true
+      };
+      var errorAlert = {
+        title: 'SOMETHING WENT WRONG',
+        content: 'OH NOES',
+        placement: 'top',
+        type: 'danger',
+        duration: 5,
+        show: 'true'
       };
       var setGenerator = new DominionSetGenerator();
       $scope.cards = [];
@@ -63,6 +71,34 @@
         user.isSelected = false;
       };
       $scope.startGame = function() {
+        if ($scope.cards.length === 0) {
+          errorAlert.content = "No cards have been generated";
+          return $alert(errorAlert);
+        } else if ($scope.playersInGame.length === 0) {
+          errorAlert.content = "No users have been added";
+          return $alert(errorAlert);
+        }
+        var game = {
+          cardSet: _.keys($scope.cards),
+          scores: []
+        };
+        _.forEach($scope.playersInGame, function(player) {
+          game.scores.push({user:player._id});
+        });
+        $http({
+          url: "/games",
+          dataType: "json",
+          method: "POST",
+          data: JSON.stringify(game),
+          headers: {
+            "Content-Type": "application/json; charset=utf-8"
+          }
+        }).success(function(){
+          alert('game created'); //do a redirect to the game page to save scores?
+        }).error(function(error){
+          errorAlert.content = error;
+          $alert(errorAlert);
+        });
       };
       $scope.$watch(
         function() {

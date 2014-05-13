@@ -20,6 +20,7 @@ var gulp = require('gulp'),
     './bower_components/angular-motion/dist/angular-motion.css',
     './bower_components/bootstrap/dist/js/bootstrap.js',
     './bower_components/bootstrap/dist/fonts/*',
+    './bower_components/bootstrap-additions/dist/bootstrap-additions.css',
     './bower_components/moment/moment.js',
     './bower_components/lodash/dist/lodash.js'
   ],
