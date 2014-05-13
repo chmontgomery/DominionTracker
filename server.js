@@ -11,12 +11,9 @@ var koa = require('koa'),
   mongoose = require('mongoose'),
   render = require('./src/lib/render'),
   homeController = require('./src/controllers/home'),
-  gameController = require('./src/controllers/game'),
-  usersController = require('./src/controllers/users'),
   port,
   User,
-  Game,
-  Score;
+  Game;
 
 mongoose.connect('mongodb://localhost/dominiontracker');
 

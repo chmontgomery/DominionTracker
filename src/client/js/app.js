@@ -3,7 +3,8 @@
 
   angular.module('DominionTracker', [
     'DominionTracker.controllers',
-    'DominionTracker.directives'
+    'DominionTracker.directives',
+    'mgcrea.ngStrap'
   ]);
 
 })();

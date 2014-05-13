@@ -16,13 +16,17 @@
 
   module.controller('startGameController', ['$scope',
     function ($scope) {
+      $scope.cardSets = {
+        Base: true
+      };
+      var setGenerator = new DominionSetGenerator();
       $scope.cards = [];
       $scope.playersInGame = [];
       $scope.availableUsers = JSON.parse($scope.availableUsersString);
       $scope.generateCards = function() {
         console.log('generating cards...');
         //TODO
-        $scope.cards = ['rats','rats', 'chapel'];
+        $scope.cards = setGenerator.generateSet(10);
         $scope.generateCardsBtnTxt = 'Re-generate';
       };
       $scope.generateCardsBtnTxt = 'Generate Card Set';
@@ -44,5 +48,15 @@
       };
       $scope.startGame = function() {
       };
+      $scope.$watch(function() { return _.keys($scope.cardSets).join(','); }, function() {
+        //reset owned cards on generator
+        var cardsToSelectFrom = _.transform(DominionSetGeneratorData.cardData, function(result, card, key) {
+          _.forEach(_.keys($scope.cardSets), function(setName) {
+            if (card[setName])
+              result[key] = 1;
+          });
+        });
+        setGenerator.setOwned(cardsToSelectFrom);
+      });
     }]);
 })();
