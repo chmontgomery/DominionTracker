@@ -20,15 +20,17 @@
     };
   });
 
-    module.directive('users', function () {
-        return {
-            restrict: "E",
-            replace: true,
-            controller: 'UsersController',
-            templateUrl: '/public/partials/users.html',
-            scope: { users : "@" }
-        };
-    });
+  module.directive('users', function () {
+    return {
+      restrict: "E",
+      replace: true,
+      controller: 'UsersController',
+      templateUrl: '/public/partials/users.html',
+      scope: {
+        usersString: "@"
+      }
+    };
+  });
 
   module.directive('startGame', function () {
     return {

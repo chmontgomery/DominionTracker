@@ -37,11 +37,13 @@ db.once('open', function () {
   var gameSchema = mongoose.Schema({
     date: { type: Date, default: Date.now },
     cardSet: Array,
-    scores: [{
-      user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-      points: Number,
-      result: String //win,loss,tie
-    }]
+    scores: [
+      {
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        points: Number,
+        result: String //win,loss,tie
+      }
+    ]
   });
   Game = mongoose.model('Game', gameSchema);
 });
@@ -53,22 +55,22 @@ app.use(serve(path.join(__dirname, '/dist')));
 
 app.use(route.get('/', homeController));
 app.use(route.get('/usersPage', function* () {
-        //get all users
-        var allUsers = yield User.find().exec();
-        console.log(allUsers);
-        this.body = yield render('users', { users : allUsers });
+  var allUsers = yield User.find().exec();
+  this.body = yield render('usersPage', {
+    users: allUsers
+  });
 }));
 
 app.use(route.get('/startGame', function* () {
-  var users = yield User.find().exec();
+  var allUsers = yield User.find().exec();
   this.body = yield render('startGame', {
-    availableUsers: users
+    availableUsers: allUsers
   });
 }));
 
 //game routes
 app.use(route.get('/games', function *() {
-  var games =  yield Game.find().populate('scores.user').exec();
+  var games = yield Game.find().populate('scores.user').exec();
   this.body = games;
 }));
 

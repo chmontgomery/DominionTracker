@@ -9,10 +9,10 @@
       console.log('Hello world!');
     }]);
 
-    module.controller('UsersController', ['$scope',
-    function (/*$scope*/) {
-
-        }]);
+  module.controller('UsersController', ['$scope',
+    function ($scope) {
+      $scope.users = JSON.parse($scope.usersString);
+    }]);
 
   module.controller('startGameController', ['$scope',
     function ($scope) {
