@@ -2,21 +2,30 @@
   <h1>1. Generate Set</h1>
   <div class="row">
     <div class="col-lg-6">
-      <div class="btn-group" ng-model="cardSets" data-toggle="buttons" bs-checkbox-group>
-        <label class="btn btn-default"><input type="checkbox" value="Base"> Base</label>
-        <label class="btn btn-default"><input type="checkbox" value="DarkAges"> Dark Ages</label>
-        <label class="btn btn-default"><input type="checkbox" value="Intrigue"> Intrigue</label>
-        <label class="btn btn-default"><input type="checkbox" value="Seaside"> Seaside</label>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="btn-group" ng-model="cardSets" data-toggle="buttons" bs-checkbox-group>
+            <label class="btn btn-default"><input type="checkbox" value="Base"> Base</label>
+            <label class="btn btn-default"><input type="checkbox" value="DarkAges"> Dark Ages</label>
+            <label class="btn btn-default"><input type="checkbox" value="Intrigue"> Intrigue</label>
+            <label class="btn btn-default"><input type="checkbox" value="Seaside"> Seaside</label>
+          </div>
+          <button type="button" class="btn btn-success" ng-click="generateCards()">
+            <span class="glyphicon glyphicon-random"></span> {{ generateCardsBtnTxt }}
+          </button>
+        </div>
+        <div ng-show="cards">
+          <div class="panel-body">
+            <ul class="list-group">
+              <li ng-repeat="(name, card) in cards" class="list-group-item {{card.setName}}">{{name}} - {{card.setName}}- {{card.cost}}</li>
+            </ul>
+          </div>
+        </div>
       </div>
-      <button type="button" class="btn btn-success" ng-click="generateCards()">
-        <span class="glyphicon glyphicon-random"></span> {{ generateCardsBtnTxt }}
-      </button>
     </div>
   </div>
 
-  <div ng-show="cards">
-    {{ cards }}
-  </div>
+
 
   <h1>2. Add Players</h1>
 
