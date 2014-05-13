@@ -9,10 +9,20 @@
       console.log('Hello world!');
     }]);
 
-  module.controller('UsersController', ['$scope',
-    function ($scope) {
-      $scope.users = JSON.parse($scope.usersString);
+  module.controller('UsersController', ['$scope', '$http',
+    function ($scope, $http) {
+      $scope.user = {};
 
+      $scope.users = JSON.parse($scope.usersString);
+      $scope.submit = function()
+      {
+        $http.post('/users/', $scope.user)
+            .success(function() {
+                window.location.reload();
+            }).error(function () {
+                alert('something terrible happened');
+            });
+      };
     }]);
 
   module.controller('startGameController', ['$scope',
