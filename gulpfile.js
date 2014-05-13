@@ -24,7 +24,7 @@ var gulp = require('gulp'),
     './bower_components/lodash/dist/lodash.js'
   ],
   resourceFiles = [
-    './src/client/**/*.{png,html}'
+    './src/client/**/*.{png,html,ico}'
   ],
   dist = './dist/public';
 
