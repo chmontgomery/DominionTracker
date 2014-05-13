@@ -9,9 +9,19 @@
       console.log('Hello world!');
     }]);
 
-  module.controller('UsersController', ['$scope', '$http',
-    function ($scope, $http) {
-      $scope.user = {};
+  module.controller('UsersController', ['$scope', '$alert', '$http',
+    function ($scope, $alert, $http) {
+
+        var errorAlert = {
+            title: 'SOMETHING WENT WRONG',
+            content: 'OH NOES',
+            placement: 'top',
+            type: 'danger',
+            duration: 5,
+            show: 'true'
+        };
+
+        $scope.user = {};
 
       $scope.users = JSON.parse($scope.usersString);
       $scope.submit = function()
@@ -20,7 +30,7 @@
             .success(function() {
                 window.location.reload();
             }).error(function () {
-                alert('something terrible happened');
+                $alert(errorAlert);
             });
       };
     }]);
