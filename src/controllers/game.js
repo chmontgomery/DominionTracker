@@ -19,7 +19,7 @@ gameSchema = mongoose.Schema({
 Game = mongoose.model('Game', gameSchema);
 
 function *find() {
-  return yield Game.find().exec();
+  return yield Game.find().populate('scores.user').exec();
 }
 
 module.exports = {
@@ -57,5 +57,6 @@ module.exports = {
       console.log(e);
     }
     this.body = yield render('saveScores', model);
-  }
+  },
+  Game: Game
 };

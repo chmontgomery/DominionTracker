@@ -13,7 +13,7 @@
     </tr>
     <tr ng-repeat="user in users">
       <td>{{user.firstName}}</td>
-      <td>{{user.lastName}}</td>
+      <td>{{user.lastName}}</td><td>{{user.results |json}}</td>
       <td class="button-column">
           <div class="btn-group">
               <button type="button" class="btn btn-warning" ng-click="editUser(user._id)">Edit</button>
