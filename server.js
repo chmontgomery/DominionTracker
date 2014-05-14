@@ -12,7 +12,8 @@ var koa = require('koa'),
   gameController = require('./src/controllers/game'),
   port;
 
-mongoose.connect('mongodb://localhost/dominiontracker');
+// MONGOHQ_URL will be set when running in heroku
+mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost/dominiontracker');
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -49,6 +50,7 @@ app.use(route.del('/users/:id', userController.del));
 app.use(route.put('/users/:id', userController.put));
 app.use(route.post('/users', userController.post));
 
+// PORT will be set when running in heroku
 port = Number(process.env.PORT || 1337);
 http.createServer(app.callback()).listen(port, function () {
   console.log('listening on ' + port);
