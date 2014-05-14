@@ -33,6 +33,7 @@ app.use(route.get('/startGame', function* () {
     availableUsers: allUsers
   });
 }));
+app.use(route.get('/saveScores/:id', gameController.getSaveScoresPage));
 
 //game routes
 app.use(route.get('/games', gameController.get));

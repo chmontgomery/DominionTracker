@@ -1,0 +1,40 @@
+<div>
+  <form ng-if="game" name="gameForm">
+    <div class="row">
+      <div class="col-lg-6">
+        <h1>Enter Scores</h1>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Players In Game</h3>
+          </div>
+          <div class="panel-body">
+            <div ng-if="game.scores.length > 0">
+              <table class="table table-condensed table-striped">
+                <tr ng-repeat="score in game.scores">
+                  <td>{{ score.user.firstName }} {{ score.user.lastName }}</td>
+                  <td><div class="input-group"><input required type="text" ng-model="score.points" /></div></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <h1>Card List</h1>
+        <div class="panel panel-default">
+          <div ng-show="game.cardSet">
+            <div class="panel-body">
+              <ul class="list-group">
+                <li ng-repeat="(name, card) in game.cardSet" class="list-group-item {{card.setName}}">{{name}} - {{card.setName}} - {{card.cost}}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="button" class="btn btn-success" ng-click="saveScores()">Save Scores!</button>
+  </form>
+  <div ng-if="!game">
+    <h1>Game not found</h1>
+  </div>
+</div>

@@ -44,4 +44,16 @@
     };
   });
 
+  module.directive('saveScores', function () {
+    return {
+      restrict: "E",
+      replace: true,
+      controller: 'saveScoresController',
+      templateUrl: '/public/partials/saveScores.html',
+      scope: {
+        gameString: '@'
+      }
+    };
+  });
+
 })();

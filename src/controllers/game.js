@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
   assert = require('assert'),
   parse = require('co-body'),
+  render = require('../lib/render'),
   Game,
   gameSchema;
 
@@ -36,11 +37,25 @@ module.exports = {
   },
   put: function *(id) {
     var gamePut = yield parse(this);
+    //clean out the id
+    if (gamePut._id) {
+      delete gamePut._id;
+    }
     this.body = yield Game.findByIdAndUpdate(id, gamePut).exec();
   },
   post: function *() {
     var gamePost = yield parse(this);
     assert(gamePost.cardSet);
     this.body = yield Game.create(gamePost);
+  },
+  getSaveScoresPage: function* (id) {
+    var model = {};
+    try {
+      var g = yield Game.findById(id).populate('scores.user').exec();
+      model.gameString = JSON.stringify(g);
+    } catch (e) {
+      console.log(e);
+    }
+    this.body = yield render('saveScores', model);
   }
 };
