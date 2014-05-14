@@ -11,8 +11,8 @@
             <div ng-if="game.scores.length > 0">
               <table class="table table-condensed table-striped">
                 <tr ng-repeat="score in game.scores">
-                  <td>{{ score.user.firstName }} {{ score.user.lastName }}</td>
-                  <td><div class="input-group"><input required type="text" ng-model="score.points" /></div></td>
+                  <td ng-class="score.result && score.result == 'win' ? 'success' : score.result && score.result == 'tie' ? 'info': ''">{{ score.user.firstName }} {{ score.user.lastName }}</td>
+                  <td><input required type="text" ng-model="score.points" /><button type="button" ng-model="thingy" ng-click="selectWinner(score.user._id)" ng-show="score.result == 'tie'" class="btn btn-success" bs-checkbox>Make Winner</button></td>
                 </tr>
               </table>
             </div>

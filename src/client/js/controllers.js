@@ -31,6 +31,14 @@
     duration: 5,
     show: 'true'
   };
+  var goodAlert = {
+    title: 'SOMETHING WENT RIGHT',
+    content: 'HOORAY',
+    placement: 'top',
+    type: 'success',
+    duration: 5,
+    show: 'true'
+  };
   module.controller('HomeController', ['$scope',
     function (/*$scope*/) {
       console.log('Hello world!');
@@ -43,36 +51,33 @@
       $scope.users = JSON.parse($scope.usersString);
       $scope.submit = function() {
         var submitUrl = '/users/';
-
-          if($scope.user !== undefined && $scope.user._id !== undefined && $scope.user._id.length > 0)
-          {
-              submitUrl += $scope.user._id;
-              $http.put(submitUrl, $scope.user)
-                  .success(function() {
-                  window.location.reload();
-              }).error(function () {
-                  $alert(errorAlert);
-              });
-          }
-          else {
-              $http.post(submitUrl, $scope.user)
-                  .success(function() {
-                      window.location.reload();
-                  }).error(function () {
-                      $alert(errorAlert);
-                  });
-          }
-
+        if($scope.user !== undefined && $scope.user._id !== undefined && $scope.user._id.length > 0)
+        {
+          submitUrl += $scope.user._id;
+          $http.put(submitUrl, $scope.user)
+            .success(function() {
+            window.location.reload();
+          }).error(function () {
+            $alert(errorAlert);
+          });
+        } else {
+        $http.post(submitUrl, $scope.user)
+          .success(function() {
+            window.location.reload();
+          }).error(function () {
+            $alert(errorAlert);
+          });
+        }
       };
       $scope.editUser = function(id) {
-          var getUrl = '/users/' + id;
-          $http.get(getUrl).success(function(data) {
-            $scope.user = data;
-          }).error(function() {
-              $alert(errorAlert);
-          });
-          //$scope.user = user;
-          editUserModal = $modal({title: 'Edit User', template: '/public/partials/editUser.html', show: true, scope: $scope});
+        var getUrl = '/users/' + id;
+        $http.get(getUrl).success(function(data) {
+          $scope.user = data;
+        }).error(function() {
+          $alert(errorAlert);
+        });
+        //$scope.user = user;
+        editUserModal = $modal({title: 'Edit User', template: '/public/partials/editUser.html', show: true, scope: $scope});
       };
       $scope.deleteUserConfirm = function(id) {
         $scope.UserToDeleteId = id;
@@ -83,10 +88,10 @@
 
         $http.delete(deleteUrl, null)
           .success(function() {
-                window.location.reload();
-            }).error(function () {
-                $alert(errorAlert);
-            });
+            window.location.reload();
+          }).error(function () {
+            $alert(errorAlert);
+        });
       };
 
 
@@ -95,54 +100,87 @@
     function($scope, $alert, $http) {
       if ($scope.gameString) {
         $scope.game = JSON.parse($scope.gameString);
-        var cardSet = {};
-        _.forEach($scope.game.cardSet, function (cardName) {
-          cardSet[cardName] = makeCard(cardName);
-        });
-        $scope.game.cardSet = cardSet;
 
-        $scope.saveScores = function() {
+        var getGameForSave = function(winningId) {
           //get fresh with the datas.
           var gameToSave = _.cloneDeep($scope.game);
           gameToSave.scores = _.sortBy(gameToSave.scores, function(score) {
             return score.points * -1;
           });
-          //need to add check box to denote winner in tie situation, for now all ties
           _.forEach(gameToSave.scores, function(score, index, collection) {
             if (index === 0) {
-              collection[index].result = "win";
-            } else {
-              if (score.points === collection[0].points) {
-                collection[index].result = "tie";
-                collection[0].result = "tie";
+              if (!winningId || winningId === collection[index].user._id) {
+                collection[index].result = 'win';
               } else {
-                collection[index].result = "loss";
+                collection[index].result = 'loss';
+              }
+            } else {
+              if (winningId) {
+                if (score.user._id === winningId) {
+                  collection[index].result = 'win';
+                } else {
+                  collection[index].result = 'loss;'
+                }
+              } else if (score.points === collection[0].points) {
+                collection[index].result = 'tie';
+                if (collection[0].result !== 'tie') {
+                  collection[0].result = 'tie';
+                }
+              } else {
+                collection[index].result = 'loss';
               }
             }
             collection[index].user = score.user._id;
           });
           gameToSave.cardSet = _.keys(gameToSave.cardSet);
-
-          console.log(gameToSave);
+          return gameToSave;
+        };
+        var saveGame = function(game) {
           $http({
-            url: "/games/" + gameToSave._id,
+            url: "/games/" + game._id,
             dataType: "json",
             method: "PUT",
-            data: gameToSave,
+            data: game,
             headers: {
               "Content-Type": "application/json; charset=utf-8"
             }
-          }).success(function(){
-            alert('game saved'); //do a redirect to the game page to save scores?
+          }).success(function() {
+            var tieIds = [];
+            _.forEach(game.scores, function(score) {
+              if (score.result === 'tie') {
+                tieIds.push(score.user);
+              }
+              _.find($scope.game.scores, function(modelScore) {
+                return modelScore.user._id == score.user;
+              }).result = score.result;
+            });
+            if (tieIds.length > 0) {
+              goodAlert.content = 'Game saved, tie detected. Select a winner if there is one.';
+              $alert(goodAlert);
+            } else {
+              goodAlert.content = 'Game Saved!';
+              $alert(goodAlert);
+            }
           }).error(function(error){
             errorAlert.content = error;
             $alert(errorAlert);
           });
         };
+        var cardSet = {};
+        _.forEach($scope.game.cardSet, function (cardName) {
+          cardSet[cardName] = makeCard(cardName);
+        });
+        $scope.game.cardSet = cardSet;
+        $scope.selectWinner = function(winningId) {
+          saveGame(getGameForSave(winningId));
+        };
+        $scope.saveScores = function() {
+          saveGame(getGameForSave());
+        };
       }
     }]);
-  module.controller('startGameController', ['$scope', '$alert', '$http',
-    function ($scope, $alert, $http) {
+  module.controller('startGameController', ['$scope', '$alert', '$http', '$window',
+    function ($scope, $alert, $http, $window) {
       $scope.cardSets = {
         Base: true
       };
@@ -152,8 +190,6 @@
       $scope.availableSets = availableSets;
       $scope.availableUsers = JSON.parse($scope.availableUsersString);
       $scope.generateCards = function() {
-        console.log('generating cards...');
-        //TODO
         var cards = setGenerator.generateSet(10);
         $scope.cards = _.mapValues(cards, function(card, cardName) {
           return makeCard(cardName);
@@ -181,8 +217,8 @@
         if ($scope.cards.length === 0) {
           errorAlert.content = "No cards have been generated";
           return $alert(errorAlert);
-        } else if ($scope.playersInGame.length === 0) {
-          errorAlert.content = "No users have been added";
+        } else if ($scope.playersInGame.length < 2) {
+          errorAlert.content = "At least 2 players are required";
           return $alert(errorAlert);
         }
         var game = {
@@ -200,8 +236,8 @@
           headers: {
             "Content-Type": "application/json; charset=utf-8"
           }
-        }).success(function(){
-          alert('game created'); //do a redirect to the game page to save scores?
+        }).success(function(resp) {
+          $window.location = '/saveScores/' + resp._id;
         }).error(function(error){
           errorAlert.content = error;
           $alert(errorAlert);
@@ -210,8 +246,9 @@
       $scope.$watch(
         function() {
           return _.values($scope.cardSets).join('');
-        }, function(oldValue, newValue) {
-          if (oldValue === newValue) {
+        },
+        function(oldValue, newValue) {
+          if (oldValue === newValue && _.keys(setGenerator.owned).length > 0) {
             return;
           }
           //reset owned cards on generator
