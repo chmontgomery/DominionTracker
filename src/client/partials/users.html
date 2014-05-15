@@ -1,24 +1,33 @@
 <div>
   <h1>
     Users
-    <button type="button" class="btn btn-success pull-right" data-title="New User" data-template="/public/partials/editUser.html" bs-modal="modal">
+    <button type="button" class="btn btn-success pull-right" data-title="New User"
+            data-template="/public/partials/editUser.html" bs-modal="modal">
       <span class="glyphicon glyphicon-plus"></span> New
     </button>
   </h1>
   <table class="table table-striped">
     <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th></th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Wins</th>
+      <th>Loses</th>
+      <th>Ties</th>
+      <th>Played</th>
+      <th></th>
     </tr>
     <tr ng-repeat="user in users">
       <td>{{user.firstName}}</td>
-      <td>{{user.lastName}}</td><td>{{user.results |json}}</td>
+      <td>{{user.lastName}}</td>
+      <td>{{user.results.wins}}</td>
+      <td>{{user.results.losses}}</td>
+      <td>{{user.results.ties}}</td>
+      <td>{{user.results.total}}</td>
       <td class="button-column">
-          <div class="btn-group">
-              <button type="button" class="btn btn-warning" ng-click="editUser(user._id)">Edit</button>
-              <button type="button" class="btn btn-danger" ng-click="deleteUserConfirm(user._id)">Delete</button>
-          </div>
+        <div class="btn-group">
+          <button type="button" class="btn btn-warning" ng-click="editUser(user._id)">Edit</button>
+          <button type="button" class="btn btn-danger" ng-click="deleteUserConfirm(user._id)">Delete</button>
+        </div>
       </td>
     </tr>
   </table>

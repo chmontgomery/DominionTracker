@@ -1,22 +1,7 @@
-var mongoose = require('mongoose'),
-  assert = require('assert'),
+var assert = require('assert'),
   parse = require('co-body'),
   render = require('../lib/render'),
-  Game,
-  gameSchema;
-
-gameSchema = mongoose.Schema({
-  date: { type: Date, default: Date.now },
-  cardSet: Array,
-  scores: [
-    {
-      user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-      points: Number,
-      result: String //win,loss,tie
-    }
-  ]
-});
-Game = mongoose.model('Game', gameSchema);
+  Game = require('../models/game');
 
 function *find() {
   return yield Game.find().populate('scores.user').exec();
@@ -57,6 +42,5 @@ module.exports = {
       console.log(e);
     }
     this.body = yield render('saveScores', model);
-  },
-  Game: Game
+  }
 };

@@ -119,7 +119,7 @@
                 if (score.user._id === winningId) {
                   collection[index].result = 'win';
                 } else {
-                  collection[index].result = 'loss;'
+                  collection[index].result = 'loss';
                 }
               } else if (score.points === collection[0].points) {
                 collection[index].result = 'tie';
@@ -151,7 +151,7 @@
                 tieIds.push(score.user);
               }
               _.find($scope.game.scores, function(modelScore) {
-                return modelScore.user._id == score.user;
+                return modelScore.user._id === score.user;
               }).result = score.result;
             });
             if (tieIds.length > 0) {

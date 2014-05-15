@@ -1,35 +1,29 @@
-var mongoose = require('mongoose'),
-  assert = require('assert'),
+var assert = require('assert'),
   co = require('co'),
   parse = require('co-body'),
   render = require('../lib/render'),
   _ = require('lodash'),
-  Game = require('./game'),
-  User,
-  userSchema;
-
-userSchema = mongoose.Schema({
-  firstName: String,
-  lastName: String,
-  nickname: String
-});
-userSchema.methods.fullName = function () {
-  return this.firstName + " " + this.lastName;
-};
-User = mongoose.model('User', userSchema);
+  Game = require('../models/game'),
+  User = require('../models/user');
 
 function *find() {
   return yield User.find().exec();
 }
 
 function *getResults(userId) {
-  var games = yield Game.Game.find().populate('scores.user').exec(); //easy way - just fetch all and filter in code (get fancy later)
-  var results = {wins:0, losses:0, ties:0, total:0};
-  for (var index in games) {
-    var game = games[index];
-    var userResult = _.find(game.scores, function(score) {
-      return userId.toString() === score.user._id.toString();
-    });
+
+  function findUserResult(score) {
+    if (!score || !score.user) {
+      return false;
+    }
+    return userId.toString() === score.user._id.toString();
+  }
+
+  var games = yield Game.find().populate('scores.user').exec(); //easy way - just fetch all and filter in code (get fancy later)
+  var results = {wins: 0, losses: 0, ties: 0, total: 0};
+  for (var i = 0; i < games.length; i++) {
+    var game = games[i];
+    var userResult = _.find(game.scores, findUserResult);
     if (userResult) {
       switch (userResult.result) {
         case 'win':
@@ -80,11 +74,10 @@ module.exports = {
   getUsersPage: function *() {
     var allUsers = yield User.find().exec();
     var users = [];
-    for (var index in allUsers) {
-      var user = allUsers[index].toObject();
-      var results = yield getResults(user._id);
-      user.results = results;
-      users.push(user); //why am I doing this? I don't know. but it works.
+    for (var i = 0; i < allUsers.length; i++) {
+      var userObj = allUsers[i].toObject();
+      userObj.results = yield getResults(userObj._id);
+      users.push(userObj); //why am I doing this? I don't know. but it works.
     }
     this.body = yield render('usersPage', {
       users: users
