@@ -24,6 +24,7 @@ module.exports = {
   },
   put: function *(id) {
     var userPut = yield parse(this);
+    delete userPut._id;
     this.body = yield User.findByIdAndUpdate(id, userPut).exec();
   },
   post: function *() {

@@ -49,24 +49,33 @@
       var editUserModal = {};
       $scope.user = {};
       $scope.users = JSON.parse($scope.usersString);
-      $scope.submit = function () {
+      $scope.submit = function ($hide) {
         var submitUrl = '/users/';
         if ($scope.user !== undefined && $scope.user._id !== undefined && $scope.user._id.length > 0) {
           submitUrl += $scope.user._id;
           $http.put(submitUrl, $scope.user)
-            .success(function () {
-              window.location.reload();
+            .success(function (data) {
+              $hide();
+              var user = _.find($scope.users, function(u) {
+                return u._id === data._id;
+              });
+              _.merge(user, data);
             }).error(function () {
               $alert(errorAlert);
             });
         } else {
           $http.post(submitUrl, $scope.user)
-            .success(function () {
-              window.location.reload();
+            .success(function (data) {
+              $hide();
+              $scope.users.push(data);
             }).error(function () {
               $alert(errorAlert);
             });
         }
+      };
+      $scope.cancel = function(hideModal) {
+        $scope.user = {};
+        hideModal();
       };
       $scope.editUser = function (id) {
         var getUrl = '/users/' + id;
@@ -82,12 +91,13 @@
         $scope.UserToDeleteId = id;
         confirmDeleteModal.show();
       };
-      $scope.deleteUser = function (id) {
+      $scope.deleteUser = function (id, $hide) {
         var deleteUrl = '/users/' + id;
 
         $http.delete(deleteUrl, null)
-          .success(function () {
-            window.location.reload();
+          .success(function (data) {
+            _.remove($scope.users, function(user) { return data._id === user._id; });
+            $hide();
           }).error(function () {
             $alert(errorAlert);
           });

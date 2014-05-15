@@ -3,7 +3,9 @@
 
   <table class="table table-striped">
     <tr ng-repeat="user in users">
-      <td>{{user.firstName}}</td>
+      <td>
+        <user-name user="user"></user-name>
+      </td>
       <td><tally number="user.results.wins"></tally></td>
     </tr>
   </table>

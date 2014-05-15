@@ -39,7 +39,9 @@
         <div class="panel-body">
           <table class="table table-condensed table-striped">
             <tr ng-repeat="user in availableUsers track by $index" ng-class="user.isSelected ? 'available-player-selected' : ''">
-              <td>{{ user.firstName }} {{ user.lastName }}</td>
+              <td>
+                <user-name user="user"></user-name>
+              </td>
               <td>
                 <button type="button" class="btn btn-success" ng-click="addUser(user._id)" ng-disabled="user.isSelected">
                   <span class="glyphicon glyphicon-plus"></span> Add
@@ -65,7 +67,9 @@
           <div ng-if="playersInGame.length > 0">
             <table class="table table-condensed table-striped">
               <tr ng-repeat="user in playersInGame track by $index">
-                <td>{{ user.firstName }} {{ user.lastName }}</td>
+                <td>
+                  <user-name user="user"></user-name>
+                </td>
                 <td>
                   <button type="button" class="btn btn-danger" ng-click="removePlayer(user._id)">
                     <span class="glyphicon glyphicon-minus"></span> Remove

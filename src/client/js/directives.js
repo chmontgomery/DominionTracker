@@ -110,4 +110,16 @@
     };
   });
 
+  module.directive('userName', function() {
+    return {
+      restrict: "E",
+      replace: true,
+      templateUrl: '/public/partials/userName.html',
+      scope: {
+        user: '=',
+        full: '='
+      }
+    };
+  });
+
 })();

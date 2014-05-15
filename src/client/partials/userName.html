@@ -1,0 +1,13 @@
+<div>
+  <div ng-if="user.nickname">
+    <div ng-if="full">
+      {{user.firstName}} ({{user.nickname}}) {{user.lastName}}
+    </div>
+    <div ng-if="!full">
+      {{user.nickname}}
+    </div>
+  </div>
+  <div ng-if="!user.nickname">
+    {{user.firstName}} {{user.lastName}}
+  </div>
+</div>
