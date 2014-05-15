@@ -2,6 +2,9 @@
   <h1>Leader Board</h1>
 
   <table class="table table-striped">
-    <tr></tr>
+    <tr ng-repeat="user in users">
+      <td>{{user.firstName}}</td>
+      <td><tally number="user.results.wins"></tally></td>
+    </tr>
   </table>
 </div>

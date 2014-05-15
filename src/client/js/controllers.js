@@ -8,14 +8,14 @@
   };
   var module = angular.module('DominionTracker.controllers', [
   ]);
-  var makeCard = function(cardName) {
+  var makeCard = function (cardName) {
     var newCard = {};
-    _.forEach(_.keys(availableSets), function(setName) {
+    _.forEach(_.keys(availableSets), function (setName) {
       if (DominionSetGeneratorData.cardData[cardName][setName]) {
         newCard.setName = setName;
       }
     });
-    var cost = _.findKey(DominionSetGeneratorData.cardData[cardName], function(c, k) {
+    var cost = _.findKey(DominionSetGeneratorData.cardData[cardName], function (c, k) {
       return k.indexOf('Cost') === 0;
     });
     if (cost) {
@@ -40,8 +40,8 @@
     show: 'true'
   };
   module.controller('HomeController', ['$scope',
-    function (/*$scope*/) {
-      console.log('Hello world!');
+    function ($scope) {
+      $scope.users = JSON.parse($scope.usersString);
     }]);
   module.controller('UsersController', ['$scope', '$alert', '$http', '$modal',
     function ($scope, $alert, $http, $modal) {
@@ -49,65 +49,64 @@
       var editUserModal = {};
       $scope.user = {};
       $scope.users = JSON.parse($scope.usersString);
-      $scope.submit = function() {
+      $scope.submit = function () {
         var submitUrl = '/users/';
-        if($scope.user !== undefined && $scope.user._id !== undefined && $scope.user._id.length > 0)
-        {
+        if ($scope.user !== undefined && $scope.user._id !== undefined && $scope.user._id.length > 0) {
           submitUrl += $scope.user._id;
           $http.put(submitUrl, $scope.user)
-            .success(function() {
-            window.location.reload();
-          }).error(function () {
-            $alert(errorAlert);
-          });
+            .success(function () {
+              window.location.reload();
+            }).error(function () {
+              $alert(errorAlert);
+            });
         } else {
-        $http.post(submitUrl, $scope.user)
-          .success(function() {
-            window.location.reload();
-          }).error(function () {
-            $alert(errorAlert);
-          });
+          $http.post(submitUrl, $scope.user)
+            .success(function () {
+              window.location.reload();
+            }).error(function () {
+              $alert(errorAlert);
+            });
         }
       };
-      $scope.editUser = function(id) {
+      $scope.editUser = function (id) {
         var getUrl = '/users/' + id;
-        $http.get(getUrl).success(function(data) {
+        $http.get(getUrl).success(function (data) {
           $scope.user = data;
-        }).error(function() {
+        }).error(function () {
           $alert(errorAlert);
         });
         //$scope.user = user;
         editUserModal = $modal({title: 'Edit User', template: '/public/partials/editUser.html', show: true, scope: $scope});
       };
-      $scope.deleteUserConfirm = function(id) {
+      $scope.deleteUserConfirm = function (id) {
         $scope.UserToDeleteId = id;
         confirmDeleteModal.show();
       };
-      $scope.deleteUser = function(id) {
+      $scope.deleteUser = function (id) {
         var deleteUrl = '/users/' + id;
 
         $http.delete(deleteUrl, null)
-          .success(function() {
+          .success(function () {
             window.location.reload();
           }).error(function () {
             $alert(errorAlert);
-        });
+          });
       };
 
 
     }]);
   module.controller('saveScoresController', ['$scope', '$alert', '$http',
-    function($scope, $alert, $http) {
+    function ($scope, $alert, $http) {
       if ($scope.gameString) {
         $scope.game = JSON.parse($scope.gameString);
 
-        var getGameForSave = function(winningId) {
+        var getGameForSave = function (winningId) {
           //get fresh with the datas.
           var gameToSave = _.cloneDeep($scope.game);
-          gameToSave.scores = _.sortBy(gameToSave.scores, function(score) {
+          gameToSave.scores = _.sortBy(gameToSave.scores, function (score) {
             return score.points * -1;
           });
-          _.forEach(gameToSave.scores, function(score, index, collection) {
+          _.forEach(gameToSave.scores, function (score, index, collection) {
             if (index === 0) {
               if (!winningId || winningId === collection[index].user._id) {
                 collection[index].result = 'win';
@@ -135,7 +134,7 @@
           gameToSave.cardSet = _.keys(gameToSave.cardSet);
           return gameToSave;
         };
-        var saveGame = function(game) {
+        var saveGame = function (game) {
           $http({
             url: "/games/" + game._id,
             dataType: "json",
@@ -144,13 +143,13 @@
             headers: {
               "Content-Type": "application/json; charset=utf-8"
             }
-          }).success(function() {
+          }).success(function () {
             var tieIds = [];
-            _.forEach(game.scores, function(score) {
+            _.forEach(game.scores, function (score) {
               if (score.result === 'tie') {
                 tieIds.push(score.user);
               }
-              _.find($scope.game.scores, function(modelScore) {
+              _.find($scope.game.scores, function (modelScore) {
                 return modelScore.user._id === score.user;
               }).result = score.result;
             });
@@ -161,7 +160,7 @@
               goodAlert.content = 'Game Saved!';
               $alert(goodAlert);
             }
-          }).error(function(error){
+          }).error(function (error) {
             errorAlert.content = error;
             $alert(errorAlert);
           });
@@ -171,10 +170,10 @@
           cardSet[cardName] = makeCard(cardName);
         });
         $scope.game.cardSet = cardSet;
-        $scope.selectWinner = function(winningId) {
+        $scope.selectWinner = function (winningId) {
           saveGame(getGameForSave(winningId));
         };
-        $scope.saveScores = function() {
+        $scope.saveScores = function () {
           saveGame(getGameForSave());
         };
       }
@@ -189,31 +188,31 @@
       $scope.playersInGame = [];
       $scope.availableSets = availableSets;
       $scope.availableUsers = JSON.parse($scope.availableUsersString);
-      $scope.generateCards = function() {
+      $scope.generateCards = function () {
         var cards = setGenerator.generateSet(10);
-        $scope.cards = _.mapValues(cards, function(card, cardName) {
+        $scope.cards = _.mapValues(cards, function (card, cardName) {
           return makeCard(cardName);
         });
         $scope.generateCardsBtnTxt = 'Re-generate';
       };
       $scope.generateCardsBtnTxt = 'Generate Card Set';
-      $scope.addUser = function(id) {
-        var player = _.find($scope.availableUsers, function(p) {
+      $scope.addUser = function (id) {
+        var player = _.find($scope.availableUsers, function (p) {
           return p._id === id;
         });
         $scope.playersInGame.push(player);
         player.isSelected = true;
       };
-      $scope.removePlayer = function(id) {
-        _.remove($scope.playersInGame, function(p) {
+      $scope.removePlayer = function (id) {
+        _.remove($scope.playersInGame, function (p) {
           return p._id === id;
         });
-        var user = _.find($scope.availableUsers, function(p) {
+        var user = _.find($scope.availableUsers, function (p) {
           return p._id === id;
         });
         user.isSelected = false;
       };
-      $scope.startGame = function() {
+      $scope.startGame = function () {
         if ($scope.cards.length === 0) {
           errorAlert.content = "No cards have been generated";
           return $alert(errorAlert);
@@ -225,8 +224,8 @@
           cardSet: _.keys($scope.cards),
           scores: []
         };
-        _.forEach($scope.playersInGame, function(player) {
-          game.scores.push({user:player._id});
+        _.forEach($scope.playersInGame, function (player) {
+          game.scores.push({user: player._id});
         });
         $http({
           url: "/games",
@@ -236,30 +235,30 @@
           headers: {
             "Content-Type": "application/json; charset=utf-8"
           }
-        }).success(function(resp) {
+        }).success(function (resp) {
           $window.location = '/saveScores/' + resp._id;
-        }).error(function(error){
+        }).error(function (error) {
           errorAlert.content = error;
           $alert(errorAlert);
         });
       };
       $scope.$watch(
-        function() {
+        function () {
           return _.values($scope.cardSets).join('');
         },
-        function(oldValue, newValue) {
+        function (oldValue, newValue) {
           if (oldValue === newValue && _.keys(setGenerator.owned).length > 0) {
             return;
           }
           //reset owned cards on generator
-          var cardsToSelectFrom = _.transform(DominionSetGeneratorData.cardData, function(result, card, key) {
-            _.forEach(_.keys(availableSets), function(setName) {
+          var cardsToSelectFrom = _.transform(DominionSetGeneratorData.cardData, function (result, card, key) {
+            _.forEach(_.keys(availableSets), function (setName) {
               if ($scope.cardSets[setName] && card[setName]) {
                 result[key] = 1;
               }
             });
           });
           setGenerator.setOwned(cardsToSelectFrom);
-      });
+        });
     }]);
 })();

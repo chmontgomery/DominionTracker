@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<home></home>
+<home users-string='{{ JSON.stringify(users) }}'></home>
 {% endblock %}
