@@ -2,7 +2,7 @@
   <h1>Leader Board</h1>
 
   <table class="table table-striped">
-    <tr ng-repeat="user in users">
+    <tr ng-repeat="user in users | orderBy:'results.wins':true">
       <td>
         <user-name user="user"></user-name>
       </td>
