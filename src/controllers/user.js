@@ -41,5 +41,15 @@ module.exports = {
     this.body = yield render('usersPage', {
       users: yield userStats.find()
     });
+  },
+  getUserDetails: function *(id) {
+    var info = yield User.findById(id).exec();
+    var results = yield userStats.findById(id);
+    this.body = yield render('userDetails', {
+      user: {
+        info: info,
+        results: results
+      }
+    });
   }
 };

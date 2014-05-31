@@ -122,4 +122,16 @@
     };
   });
 
+  module.directive('userDetails', function () {
+    return {
+      restrict: "E",
+      replace: true,
+      controller: 'userDetailsController',
+      templateUrl: '/public/partials/userDetails.html',
+      scope: {
+        userString: "@"
+      }
+    };
+  });
+
 })();

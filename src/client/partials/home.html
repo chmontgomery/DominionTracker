@@ -4,7 +4,9 @@
   <table class="table table-striped">
     <tr ng-repeat="user in users | orderBy:'results.wins':true">
       <td>
-        <user-name user="user"></user-name>
+        <a href="/userDetails/{{user._id}}">
+          <user-name user="user"></user-name>
+        </a>
       </td>
       <td><tally number="user.results.wins"></tally></td>
     </tr>

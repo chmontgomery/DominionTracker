@@ -1,0 +1,11 @@
+<div>
+  <h1>
+    <user-name user="user.info" full="true"></user-name>
+  </h1>
+  <ul class="list-group">
+    <li class="list-group-item" ng-repeat="(key, value) in user.results">
+      <span class="badge">{{value}}</span>
+      {{key}}
+    </li>
+  </ul>
+</div>

@@ -28,6 +28,7 @@ app.use(serve(path.join(__dirname, '/dist')));
 
 app.use(route.get('/', homeController));
 app.use(route.get('/usersPage', userController.getUsersPage));
+app.use(route.get('/userDetails/:id', userController.getUserDetails));
 app.use(route.get('/startGame', function* () {
   var allUsers = yield userController.find();
   this.body = yield render('startGame', {

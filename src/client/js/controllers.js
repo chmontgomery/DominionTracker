@@ -271,4 +271,9 @@
           setGenerator.setOwned(cardsToSelectFrom);
         });
     }]);
+
+  module.controller('userDetailsController', ['$scope', '$alert', '$http', '$window',
+    function ($scope) {
+      $scope.user = JSON.parse($scope.userString);
+    }]);
 })();

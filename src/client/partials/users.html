@@ -17,7 +17,9 @@
     </tr>
     <tr ng-repeat="user in users" class="repeated-item">
       <td>
-        <user-name user="user" full="true"></user-name>
+        <a href="/userDetails/{{user._id}}">
+          <user-name user="user"></user-name>
+        </a>
       </td>
       <td>{{user.results.wins}}</td>
       <td>{{user.results.losses}}</td>
