@@ -9,13 +9,13 @@
   <table class="table table-striped">
     <tr>
       <th></th>
-      <th>Wins</th>
-      <th>Loses</th>
-      <th>Ties</th>
-      <th>Played</th>
+      <th ng-click="toggleSort('results.wins')" class="clickable">Wins</th>
+      <th ng-click="toggleSort('results.losses')" class="clickable">Loses</th>
+      <th ng-click="toggleSort('results.ties')" class="clickable">Ties</th>
+      <th ng-click="toggleSort('results.total')" class="clickable">Played</th>
       <th></th>
     </tr>
-    <tr ng-repeat="user in users" class="repeated-item">
+    <tr ng-repeat="user in users | orderBy:predicate:reverse" class="repeated-item">
       <td>
         <a href="/userDetails/{{user._id}}">
           <user-name user="user"></user-name>

@@ -102,7 +102,14 @@
             $alert(errorAlert);
           });
       };
-
+      $scope.predicate = 'results.wins';
+      $scope.reverse = true;
+      $scope.toggleSort = function(key) {
+        if ($scope.predicate === key) {
+          $scope.reverse = !$scope.reverse;
+        }
+        $scope.predicate = key;
+      };
 
     }]);
   module.controller('saveScoresController', ['$scope', '$alert', '$http',
