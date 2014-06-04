@@ -69,14 +69,14 @@
       },
       link: function (scope, element) {
         var bgUrl = 'http://i.stack.imgur.com/96hvp.png',
-          bgHeight = 125,
+          bgHeight = 63,
           bgVals = [
             // width, background position x
-            [45, 25],
-            [65, -35],
-            [85, -115],
-            [105, -215],
-            [140, -360]
+            [23, 13],
+            [33, -18],
+            [43, -58],
+            [53, -108],
+            [70, -180]
           ];
 
         var groups = Math.floor(scope.number / 5),
@@ -98,7 +98,7 @@
           var $newTally = $('<div>');
           $newTally.css({
             background: 'url("' + bgUrl + '") ' +
-              bgVals[remainder - 1][1] + 'px 0 no-repeat transparent',
+              bgVals[remainder - 1][1] + 'px 0/250px 63px no-repeat transparent',
             float: 'left',
             width: bgVals[remainder - 1][0] + 'px',
             height: bgHeight + 'px'
