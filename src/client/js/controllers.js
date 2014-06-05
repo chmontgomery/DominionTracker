@@ -21,6 +21,17 @@
     if (cost) {
       newCard.cost = parseInt(cost[4]);
     }
+    newCard.cardName = cardName;
+    if (DominionSetGeneratorData.cardData[cardName].Blocker) {
+      newCard.blockerValue = DominionSetGeneratorData.cardData[cardName].Blocker * -1;
+      newCard.selectGroup = "Blockers";
+    } else {
+      newCard.blockerValue = 0;
+      newCard.selectGroup = newCard.setName;
+    }
+
+
+
     return newCard;
   };
   var errorAlert = {
@@ -201,13 +212,18 @@
         Base: true
       };
       var setGenerator = new DominionSetGenerator();
-      $scope.cards = [];
+      //set name on all cards to make it easier to use of some of the _ fn's that return arrays
+      _.forEach(DominionSetGeneratorData.cardData, function(card, name) {
+        card.cardName = name;
+      });
+      $scope.cards = {};
       $scope.playersInGame = [];
       $scope.availableSets = availableSets;
       $scope.availableUsers = JSON.parse($scope.availableUsersString);
+
       $scope.generateCards = function () {
         var cards = setGenerator.generateSet(10);
-        $scope.cards = _.mapValues(cards, function (card, cardName) {
+        $scope.cards = _.map(cards, function (card, cardName) {
           return makeCard(cardName);
         });
         $scope.generateCardsBtnTxt = 'Re-generate';
@@ -238,7 +254,7 @@
           return $alert(errorAlert);
         }
         var game = {
-          cardSet: _.keys($scope.cards),
+          cardSet: _.pluck($scope.cards, 'cardName'),
           scores: []
         };
         _.forEach($scope.playersInGame, function (player) {
@@ -259,6 +275,9 @@
           $alert(errorAlert);
         });
       };
+      $scope.doSwap = function(index) {
+        $scope.cards[index] = $scope.newCard;
+      };
       $scope.$watch(
         function () {
           return _.values($scope.cardSets).join('');
@@ -275,6 +294,9 @@
               }
             });
           });
+          $scope.swapCards = _.sortBy(_.map(cardsToSelectFrom, function(c, name) {
+            return makeCard(name);
+          }), ['blockerValue','cardName']);
           setGenerator.setOwned(cardsToSelectFrom);
         });
     }]);

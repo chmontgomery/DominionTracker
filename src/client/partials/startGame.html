@@ -17,7 +17,11 @@
         <div ng-show="cards">
           <div class="panel-body">
             <ul class="list-group">
-              <li ng-repeat="(name, card) in cards" class="list-group-item {{card.setName}}">{{name}} - {{card.setName}} - {{card.cost}}</li>
+              <li ng-repeat="card in cards" class="list-group-item {{card.setName}} card">
+                <span>{{card.cardName}} - {{card.setName}} - {{card.cost}}</span>
+                <button class="btn btn-default btn-swap" ng-hide="card.swapMe" type="button" ng-click="card.swapMe = !card.swapMe">Swap...</button>
+                <select class="sel-swap" ng-show="card.swapMe" ng-model="$parent.newCard" ng-change="doSwap($index)" ng-options="card as card.cardName group by card.selectGroup for card in swapCards"></select>
+              </li>
             </ul>
           </div>
         </div>
