@@ -86,7 +86,7 @@
           var $newTallyGroup = $('<div>');
           $newTallyGroup.css({
             background: 'url("' + bgUrl + '") ' +
-              bgVals[4][1] + 'px 0 no-repeat transparent',
+              bgVals[4][1] + 'px 0/250px 63px no-repeat transparent',
             float: 'left',
             width: bgVals[4][0] + 'px',
             height: bgHeight + 'px'
