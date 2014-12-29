@@ -212,6 +212,7 @@
       $scope.cardSets = {
         Base: true
       };
+      $scope.balanceFactor = 1;
       var setGenerator = new DominionSetGenerator();
       //set name on all cards to make it easier to use of some of the _ fn's that return arrays
       _.forEach(DominionSetGeneratorData.cardData, function(card, name) {
@@ -223,6 +224,7 @@
       $scope.availableUsers = JSON.parse($scope.availableUsersString);
 
       $scope.generateCards = function () {
+        setGenerator.setBalanceFactor($scope.balanceFactor);
         var cards = setGenerator.generateSet(10);
         $scope.cards = _.map(cards, function (card, cardName) {
           return makeCard(cardName);

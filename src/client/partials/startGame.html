@@ -1,17 +1,26 @@
 <div>
   <h1>1. Generate Set</h1>
+
   <div class="panel panel-default">
     <div class="panel-heading">
-      <div class="btn-group" ng-model="cardSets" data-toggle="buttons" bs-checkbox-group>
+      <div class="header-group">
+        Balance Factor: <input type="text" ng-model="balanceFactor" class="balance-factor"/>
+        <a target="_blank" href="http://dominionsetgenerator.com/docs/symbols/DominionSetGenerator.html#setBalanceFactor">
+          <span class="glyphicon glyphicon-question-sign"></span>
+        </a>
+      </div>
+      <div class="btn-group header-group" ng-model="cardSets" data-toggle="buttons" bs-checkbox-group>
         <label class="btn btn-default"><input type="checkbox" value="Base" checked> Base</label>
         <label class="btn btn-default"><input type="checkbox" value="DarkAges"> Dark Ages</label>
         <label class="btn btn-default"><input type="checkbox" value="Intrigue"> Intrigue</label>
         <label class="btn btn-default"><input type="checkbox" value="Seaside"> Seaside</label>
         <label class="btn btn-default"><input type="checkbox" value="Guilds"> Guilds</label>
       </div>
-      <button type="button" class="btn btn-success" ng-click="generateCards()">
-        <span class="glyphicon glyphicon-random"></span> {{ generateCardsBtnTxt }}
-      </button>
+      <div>
+        <button type="button" class="btn btn-success" ng-click="generateCards()">
+          <span class="glyphicon glyphicon-random"></span> {{ generateCardsBtnTxt }}
+        </button>
+      </div>
     </div>
     <div ng-show="cards">
       <div class="panel-body">
