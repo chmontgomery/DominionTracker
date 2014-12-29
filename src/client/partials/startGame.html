@@ -1,34 +1,30 @@
 <div>
   <h1>1. Generate Set</h1>
-  <div class="row">
-    <div class="col-lg-6">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <div class="btn-group" ng-model="cardSets" data-toggle="buttons" bs-checkbox-group>
-            <label class="btn btn-default"><input type="checkbox" value="Base" checked> Base</label>
-            <label class="btn btn-default"><input type="checkbox" value="DarkAges"> Dark Ages</label>
-            <label class="btn btn-default"><input type="checkbox" value="Intrigue"> Intrigue</label>
-            <label class="btn btn-default"><input type="checkbox" value="Seaside"> Seaside</label>
-          </div>
-          <button type="button" class="btn btn-success" ng-click="generateCards()">
-            <span class="glyphicon glyphicon-random"></span> {{ generateCardsBtnTxt }}
-          </button>
-        </div>
-        <div ng-show="cards">
-          <div class="panel-body">
-            <ul class="list-group">
-              <li ng-repeat="card in cards" class="list-group-item {{card.setName}} card">
-                <span>{{card.cardName}} - {{card.setName}} - {{card.cost}}</span>
-                <button class="btn btn-default btn-swap" ng-hide="card.swapMe" type="button" ng-click="card.swapMe = !card.swapMe">Swap...</button>
-                <select class="sel-swap" ng-show="card.swapMe" ng-model="$parent.newCard" ng-change="doSwap($index)" ng-options="card as card.cardName group by card.selectGroup for card in swapCards"></select>
-              </li>
-            </ul>
-          </div>
-        </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="btn-group" ng-model="cardSets" data-toggle="buttons" bs-checkbox-group>
+        <label class="btn btn-default"><input type="checkbox" value="Base" checked> Base</label>
+        <label class="btn btn-default"><input type="checkbox" value="DarkAges"> Dark Ages</label>
+        <label class="btn btn-default"><input type="checkbox" value="Intrigue"> Intrigue</label>
+        <label class="btn btn-default"><input type="checkbox" value="Seaside"> Seaside</label>
+        <label class="btn btn-default"><input type="checkbox" value="Guilds"> Guilds</label>
+      </div>
+      <button type="button" class="btn btn-success" ng-click="generateCards()">
+        <span class="glyphicon glyphicon-random"></span> {{ generateCardsBtnTxt }}
+      </button>
+    </div>
+    <div ng-show="cards">
+      <div class="panel-body">
+        <ul class="list-group">
+          <li ng-repeat="card in cards" class="list-group-item {{card.setName}} card">
+            <span>{{card.cardName}} - {{card.setName}} - {{card.cost}}</span>
+            <button class="btn btn-default btn-swap" ng-hide="card.swapMe" type="button" ng-click="card.swapMe = !card.swapMe">Swap...</button>
+            <select class="sel-swap" ng-show="card.swapMe" ng-model="$parent.newCard" ng-change="doSwap($index)" ng-options="card as card.cardName group by card.selectGroup for card in swapCards"></select>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
-
 
 
   <h1>2. Add Players</h1>

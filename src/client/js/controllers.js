@@ -4,7 +4,8 @@
     'Base': { name: 'Base'},
     'DarkAges': { name: 'Dark Ages'},
     'Intrigue': { name: 'Intrigue'},
-    'Seaside': { name: 'Seaside'}
+    'Seaside': { name: 'Seaside'},
+    'Guilds': { name: 'Guilds'}
   };
   var module = angular.module('DominionTracker.controllers', [
   ]);
