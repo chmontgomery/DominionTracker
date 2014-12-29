@@ -1,10 +1,9 @@
 var gulp = require('gulp'),
   nodemon = require('gulp-nodemon'),
-  clean = require('gulp-clean'),
+  argv = require('yargs').argv,
+  del = require('del'),
   less = require('gulp-less'),
-  livereload = require('gulp-livereload'),
   concat = require('gulp-concat'),
-  gutil = require('gulp-util'),
   publicFiles = [
     './bower_components/angular/angular.js',
     './bower_components/angular-route/angular-route.js',
@@ -60,31 +59,51 @@ require('load-common-gulp-tasks')(gulp, {
 gulp.task('ci', 'Lint, tests and test coverage', ['lint', 'felint', 'test']);
 gulp.task('ci-watch', false, ['lint-watch', 'felint-watch', 'test-watch']);
 
-gulp.task('develop', 'Watch and restart server on change', ['build', 'watch'], function () {
-  nodemon({
-    script: 'server.js',
-    ext: 'html js',
-    ignore: [],
-    execMap: {
-      js: "node --harmony"
-    }
-  })
-    .on('change', ['ci-watch'])
-    .on('restart', function () {
-      var d = new Date();
-      console.log(gutil.colors.bgBlue('server restarted at ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds()));
-    });
+// do a clean and build when first starting up
+gulp.task('dev', 'Watch and restart server on change', function (cb) {
+  require('run-sequence')('build',
+    ['nodemon', 'watch'],
+    cb);
+}, {
+  options: {
+    'debug': 'Start in debug mode'
+  },
+  aliases: ['develop']
 });
 
-gulp.task('clean', function () {
-  return gulp.src(['./dist/*'], {read: false})
-    .pipe(clean());
+gulp.task('nodemon', false, function (cb) {
+  var nodemon = require('gulp-nodemon');
+
+  var nodemonOpts = {
+    script: 'server.js',
+    ext: 'html js',
+    ignore: [ // only watch server files
+      './bower_components/**',
+      './node_modules/**',
+      './dist/**',
+      './src/client/**'
+    ],
+    nodeArgs: ['--harmony']
+  };
+  if (argv.debug) {
+    nodemonOpts.nodeArgs.push('--debug');
+  }
+  nodemon(nodemonOpts)
+    .on('restart', function () {
+      var d = new Date();
+      console.log(require('gulp-util').colors.bgBlue('server restarted at ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds()));
+    });
+  cb();
+});
+
+gulp.task('clean', function (cb) {
+  del(['./dist/**'], cb);
 });
 
 gulp.task('bower-files', false, function () {
   // the base option sets the relative root for the set of files,
   // preserving the folder structure
-  return gulp.src(publicFiles, { base: './bower_components/' })
+  return gulp.src(publicFiles, {base: './bower_components/'})
     .pipe(gulp.dest(dist));
 });
 
@@ -107,9 +126,11 @@ gulp.task('styles', function () {
 });
 
 gulp.task('watch', function () {
-  var server = livereload();
+  var livereload = require('gulp-livereload');
+  var livereloadServer = livereload();
+  livereload.listen();
   return gulp.watch(['./src/client/**/*.*'], ['build']).on('change', function (file) {
-    server.changed(file.path);
+    livereloadServer.changed(file.path);
   });
 });
 

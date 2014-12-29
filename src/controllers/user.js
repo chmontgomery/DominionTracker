@@ -1,5 +1,4 @@
 var assert = require('assert'),
-  co = require('co'),
   parse = require('co-body'),
   render = require('../lib/render'),
   User = require('../models/user'),
