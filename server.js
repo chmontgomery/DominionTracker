@@ -12,8 +12,12 @@ var koa = require('koa'),
   gameController = require('./src/controllers/game'),
   port;
 
-// MONGOHQ_URL will be set when running in heroku
-mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost/dominiontracker');
+// support various mongo-as-a-service options in heroku
+var mongoUri = process.env.MONGOLAB_URI ||
+  process.env.MONGOHQ_URL ||
+  'mongodb://localhost/dominiontracker';
+
+mongoose.connect(mongoUri);
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
