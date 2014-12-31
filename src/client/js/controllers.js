@@ -2,10 +2,15 @@
   'use strict';
   var availableSets = {
     'Base': { name: 'Base'},
-    'DarkAges': { name: 'Dark Ages'},
     'Intrigue': { name: 'Intrigue'},
     'Seaside': { name: 'Seaside'},
-    'Guilds': { name: 'Guilds'}
+    'Alchemy': { name: 'Alchemy'},
+    'Prosperity': { name: 'Prosperity'},
+    'Cornucopia': { name: 'Cornucopia'},
+    'Hinterlands': { name: 'Hinterlands'},
+    'DarkAges': { name: 'Dark Ages'},
+    'Guilds': { name: 'Guilds'},
+    'Promo': { name: 'Promo'}
   };
   var module = angular.module('DominionTracker.controllers', [
   ]);
