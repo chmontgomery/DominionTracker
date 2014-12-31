@@ -93,14 +93,67 @@ form input {
   to { opacity:0; }
 }
 
-li.card span {
-  display: inline-block;
-  width: 175px;
-}
 .header-group {
   margin-bottom: 5px;
 }
 
 .balance-factor {
   width: 30px;
+}
+
+.card {
+  min-height: 59px;
+  margin-bottom: auto;
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.6);
+  border-right: 1px solid rgba(0, 0, 0, 0.6);
+  border-left: 1px solid rgba(0, 0, 0, 0.6);
+  border-bottom: none;
+  &:first-child {
+    margin-top: 1px;
+  }
+  &:last-child {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+  }
+  span {
+    display: inline-block;
+    width: auto;
+  }
+}
+
+.card-group {
+  columns: 2;
+  -webkit-columns: 2;
+  -moz-columns: 2;
+  li:nth-child(5)
+  {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+  }
+}
+
+@media only screen
+and (max-width : 718px) {
+  .card-group {
+    columns: 1;
+    -webkit-columns: 1;
+    -moz-columns: 1;
+    li:nth-child(5)
+    {
+      border-bottom: none;
+    }
+  }
+}
+
+/* Smartphones (portrait) ----------- */
+@media only screen
+and (max-width : 320px) {
+  .card {
+    span {
+      width: 175px;
+    }
+  }
+}
+
+.btn-swap, .sel-swap {
+  float: right;
 }
