@@ -1,5 +1,6 @@
 var gulp = require('gulp'),
   nodemon = require('gulp-nodemon'),
+  gutil = require('gulp-util'),
   argv = require('yargs').argv,
   del = require('del'),
   less = require('gulp-less'),
@@ -78,10 +79,11 @@ gulp.task('nodemon', false, function (cb) {
     script: 'server.js',
     ext: 'html js',
     ignore: [ // only watch server files
-      './bower_components/**',
-      './node_modules/**',
-      './dist/**',
-      './src/client/**'
+      'bower_components/**',
+      'node_modules/**',
+      'dist/**',
+      'src/client/**',
+      'gulpfile.js'
     ],
     nodeArgs: ['--harmony']
   };
@@ -91,7 +93,7 @@ gulp.task('nodemon', false, function (cb) {
   nodemon(nodemonOpts)
     .on('restart', function () {
       var d = new Date();
-      console.log(require('gulp-util').colors.bgBlue('server restarted at ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds()));
+      console.log(gutil.colors.bgBlue('server restarted at ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds()));
     });
   cb();
 });
@@ -125,13 +127,19 @@ gulp.task('styles', function () {
     .pipe(gulp.dest(dist + '/styles'));
 });
 
-gulp.task('watch', function () {
+gulp.task('watch', function (cb) {
   var livereload = require('gulp-livereload');
-  var livereloadServer = livereload();
   livereload.listen();
-  return gulp.watch(['./src/client/**/*.*'], ['build']).on('change', function (file) {
-    livereloadServer.changed(file.path);
+  gulp.watch(resourceFiles, ['content-files']);
+  gulp.watch('./src/client/**/*.js', ['content-js']);
+  gulp.watch('./src/client/**/*.less', ['styles']);
+  gulp.watch(['./dist/**/*.*']).on('change', function (file) { // only reload browser after build complete
+    livereload();
+    //console.log(gutil.colors.grey('Changed:', file));
+    var d = new Date();
+    console.log(gutil.colors.bgBlue('browser livereload at ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds()));
   });
+  cb();
 });
 
 gulp.task('public', false, ['content-files', 'content-js', 'bower-files', 'styles']);

@@ -36,8 +36,6 @@
       newCard.selectGroup = newCard.setName;
     }
 
-
-
     return newCard;
   };
   var errorAlert = {
