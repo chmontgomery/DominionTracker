@@ -6,25 +6,13 @@
       <span class="glyphicon glyphicon-plus"></span> New
     </button>
   </h1>
-  <table class="table table-striped">
-    <tr>
-      <th></th>
-      <th ng-click="toggleSort('results.wins')" class="clickable">Wins</th>
-      <th ng-click="toggleSort('results.losses')" class="clickable">Loses</th>
-      <th ng-click="toggleSort('results.ties')" class="clickable">Ties</th>
-      <th ng-click="toggleSort('results.total')" class="clickable">Played</th>
-      <th></th>
-    </tr>
-    <tr ng-repeat="user in users | orderBy:predicate:reverse" class="repeated-item">
+  <table class="table table-striped table-hover">
+    <tr ng-repeat="user in users | orderBy:predicate" class="repeated-item">
       <td>
         <a href="/userDetails/{{user._id}}">
           <user-name user="user"></user-name>
         </a>
       </td>
-      <td>{{user.results.wins}}</td>
-      <td>{{user.results.losses}}</td>
-      <td>{{user.results.ties}}</td>
-      <td>{{user.results.total}}</td>
       <td class="button-column">
         <div class="btn-group">
           <button type="button" class="btn btn-warning" ng-click="editUser(user._id)">Edit</button>

@@ -23,6 +23,18 @@
     };
   });
 
+  module.directive('stats', function () {
+    return {
+      restrict: "E",
+      replace: true,
+      controller: 'StatsController',
+      templateUrl: '/public/partials/stats.html',
+      scope: {
+        usersString: "@"
+      }
+    };
+  });
+
   module.directive('users', function () {
     return {
       restrict: "E",

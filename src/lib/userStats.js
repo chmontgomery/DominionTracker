@@ -17,7 +17,18 @@ function *findById(userId) {
 
   //easy way - just fetch all and filter in code (get fancy later)
   var games = yield Game.find().populate('scores.user').exec();
-  var results = {wins: 0, losses: 0, ties: 0, total: 0, second: 0, third: 0, fourth: 0, fifth: 0, sixth: 0};
+  var results = {
+    wins: 0,
+    losses: 0,
+    ties: 0,
+    total: 0,
+    second: 0,
+    third: 0,
+    fourth: 0,
+    fifth: 0,
+    sixth: 0,
+    winPercentage: 0
+  };
   for (var i = 0; i < games.length; i++) {
     var game = games[i];
     var userResult = _.find(game.scores, findUserResult);
@@ -25,11 +36,9 @@ function *findById(userId) {
       switch (userResult.result) {
         case 'win':
           results.wins++;
-          results.total++;
           break;
         case 'loss':
           results.losses++;
-          results.total++;
           var sortedScores = _.sortBy(game.scores, scoreSorter);
           for (var j = 1; j < sortedScores.length; j++) {
             if (sortedScores[j].points === userResult.points) {
@@ -56,11 +65,13 @@ function *findById(userId) {
           break;
         case 'tie':
           results.ties++;
-          results.total++;
           break;
       }
+      results.total++;
     }
   }
+  if (results.total > 0)
+    results.winPercentage = results.wins / results.total;
   return results;
 }
 
