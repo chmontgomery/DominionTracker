@@ -134,7 +134,7 @@ gulp.task('watch', function (cb) {
   gulp.watch('./src/client/**/*.js', ['content-js']);
   gulp.watch('./src/client/**/*.less', ['styles']);
   gulp.watch(['./dist/**/*.*']).on('change', function (file) { // only reload browser after build complete
-    livereload();
+    livereload(file);
     //console.log(gutil.colors.grey('Changed:', file));
     var d = new Date();
     console.log(gutil.colors.bgBlue('browser livereload at ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds()));

@@ -60,13 +60,19 @@
     }]);
   module.controller('StatsController', ['$scope',
     function ($scope) {
-      $scope.predicate = 'results.winPercentage';
+      $scope.timeView = 'thisMonth';
+      $scope.sortColumn = 'winPercentage';
+      $scope.predicate = function () {
+        return 'results.' + $scope.timeView + '.' + $scope.sortColumn;
+      };
       $scope.reverse = true;
       $scope.toggleSort = function(key) {
-        if ($scope.predicate === key) {
+        if ($scope.sortColumn === key) {
           $scope.reverse = !$scope.reverse;
+        } else {
+          $scope.reverse = true;
         }
-        $scope.predicate = key;
+        $scope.sortColumn = key;
       };
       $scope.users = JSON.parse($scope.usersString);
     }]);

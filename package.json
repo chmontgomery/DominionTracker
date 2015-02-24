@@ -8,7 +8,8 @@
   "main": "server.js",
   "scripts": {
     "postinstall": "./node_modules/gulp/bin/gulp.js build",
-    "start": "node --harmony server.js"
+    "start": "node --harmony server.js",
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
@@ -41,6 +42,7 @@
     "lodash": "~3.3.0",
     "mongoose": "~3.8.23",
     "run-sequence": "^1.0.2",
+    "should": "^5.0.1",
     "source-map-support": "^0.2.9",
     "swig": "~1.4.2",
     "yargs": "^3.3.1"
