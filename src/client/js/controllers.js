@@ -56,6 +56,18 @@
     function ($scope) {
       $scope.users = JSON.parse($scope.usersString);
     }]);
+  module.controller('StatsController', ['$scope',
+    function ($scope) {
+      $scope.predicate = 'results.winPercentage';
+      $scope.reverse = true;
+      $scope.toggleSort = function(key) {
+        if ($scope.predicate === key) {
+          $scope.reverse = !$scope.reverse;
+        }
+        $scope.predicate = key;
+      };
+      $scope.users = JSON.parse($scope.usersString);
+    }]);
   module.controller('UsersController', ['$scope', '$alert', '$http', '$modal',
     function ($scope, $alert, $http, $modal) {
       var confirmDeleteModal = $modal({title: 'Delete User', template: '/public/partials/confirmDelete.html', show: false, scope: $scope});
@@ -115,14 +127,7 @@
             $alert(errorAlert);
           });
       };
-      $scope.predicate = 'results.wins';
-      $scope.reverse = true;
-      $scope.toggleSort = function(key) {
-        if ($scope.predicate === key) {
-          $scope.reverse = !$scope.reverse;
-        }
-        $scope.predicate = key;
-      };
+      $scope.predicate = 'results.firstName';
 
     }]);
   module.controller('saveScoresController', ['$scope', '$alert', '$http',

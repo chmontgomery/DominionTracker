@@ -1,0 +1,33 @@
+<div>
+  <h1>
+    Stats
+  </h1>
+  <table class="table table-striped table-hover">
+    <tr>
+      <th></th>
+      <th ng-click="toggleSort('results.winPercentage')" class="clickable">Win Percentage</th>
+      <th ng-click="toggleSort('results.wins')" class="clickable">Wins</th>
+      <th ng-click="toggleSort('results.losses')" class="clickable">Loses</th>
+      <th ng-click="toggleSort('results.second')" class="clickable">Seconds</th>
+      <th ng-click="toggleSort('results.third')" class="clickable">Thirds</th>
+      <th ng-click="toggleSort('results.ties')" class="clickable">Ties</th>
+      <th ng-click="toggleSort('results.total')" class="clickable">Played</th>
+    </tr>
+    <tr ng-repeat="user in users | orderBy:predicate:reverse" class="repeated-item">
+      <td>
+        <a href="/userDetails/{{user._id}}">
+          <user-name user="user"></user-name>
+        </a>
+      </td>
+      <td>{{user.results.winPercentage | percentage }}</td>
+      <td>{{user.results.wins}}</td>
+      <td>{{user.results.losses}}</td>
+      <td>{{user.results.second}}</td>
+      <td>{{user.results.third}}</td>
+      <td>{{user.results.ties}}</td>
+      <td>{{user.results.total}}</td>
+    </tr>
+  </table>
+</div>
+
+

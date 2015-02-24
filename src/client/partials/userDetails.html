@@ -4,7 +4,14 @@
   </h1>
   <ul class="list-group" style="max-width: 250px;">
     <li class="list-group-item" ng-repeat="(key, value) in user.results">
-      <span class="badge">{{value}}</span>
+      <div ng-switch on="key">
+        <div ng-switch-when="winPercentage">
+          <span class="badge pull-right">{{value | percentage}}</span>
+        </div>
+        <div ng-switch-default>
+          <span class="badge pull-right">{{value}}</span>
+        </div>
+      </div>
       {{key}}
     </li>
   </ul>
