@@ -2,17 +2,28 @@
   <h1>
     <user-name user="user.info" full="true"></user-name>
   </h1>
-  <ul class="list-group" style="max-width: 250px;">
-    <li class="list-group-item" ng-repeat="(key, value) in user.results">
-      <div ng-switch on="key">
-        <div ng-switch-when="winPercentage">
-          <span class="badge pull-right">{{value | percentage}}</span>
-        </div>
-        <div ng-switch-default>
-          <span class="badge pull-right">{{value}}</span>
-        </div>
-      </div>
-      {{key}}
-    </li>
-  </ul>
+
+  <div class="panel panel-default user-detail-panel" ng-repeat="(timePeriodKey, timePeriodResults) in user.results">
+    <div class="panel-heading">
+      <h3 class="panel-title">{{timePeriodKey | i18n}}</h3>
+    </div>
+    <div class="panel-body">
+
+      <ul class="list-group user-detail-list-group">
+        <li class="list-group-item" ng-repeat="(key, value) in timePeriodResults">
+          <div ng-switch on="key">
+            <div ng-switch-when="winPercentage">
+              <span class="badge pull-right">{{value | percentage}}</span>
+            </div>
+            <div ng-switch-default>
+              <span class="badge pull-right">{{value}}</span>
+            </div>
+          </div>
+          {{key | i18n}}
+        </li>
+      </ul>
+
+    </div>
+  </div>
+
 </div>

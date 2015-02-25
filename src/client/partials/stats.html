@@ -4,22 +4,22 @@
   </h1>
 
   <div class="timeView">
-    <input type="radio" ng-model="timeView" id="thisWeek" value="thisWeek"><label for="thisWeek">Last 7 days</label>
-    <input type="radio" ng-model="timeView" id="thisMonth" value="thisMonth"><label for="thisMonth">Last 30 days</label>
-    <input type="radio" ng-model="timeView" id="sixMonths" value="sixMonths"><label for="sixMonths">Last 6 months</label>
-    <input type="radio" ng-model="timeView" id="allTime" value="allTime"><label for="allTime">All Time</label>
+    <input type="radio" ng-model="timeView" id="thisWeek" value="thisWeek"><label for="thisWeek">{{'thisWeek' | i18n}}</label>
+    <input type="radio" ng-model="timeView" id="thisMonth" value="thisMonth"><label for="thisMonth">{{'thisMonth' | i18n}}</label>
+    <input type="radio" ng-model="timeView" id="sixMonths" value="sixMonths"><label for="sixMonths">{{'sixMonths' | i18n}}</label>
+    <input type="radio" ng-model="timeView" id="allTime" value="allTime"><label for="allTime">{{'allTime' | i18n}}</label>
   </div>
 
   <table class="table table-striped table-hover">
     <tr>
       <th></th>
-      <th ng-click="toggleSort('winPercentage')" class="clickable">Win Percentage</th>
-      <th ng-click="toggleSort('wins')" class="clickable">Wins</th>
-      <th ng-click="toggleSort('second')" class="clickable">Seconds</th>
-      <th ng-click="toggleSort('third')" class="clickable">Thirds</th>
-      <th ng-click="toggleSort('losses')" class="clickable">Loses</th>
-      <th ng-click="toggleSort('ties')" class="clickable">Ties</th>
-      <th ng-click="toggleSort('total')" class="clickable">Played</th>
+      <th ng-click="toggleSort('winPercentage')" class="clickable">{{'winPercentage' | i18n}}</th>
+      <th ng-click="toggleSort('wins')" class="clickable">{{'wins' | i18n}}</th>
+      <th ng-click="toggleSort('second')" class="clickable">{{'second' | i18n}}</th>
+      <th ng-click="toggleSort('third')" class="clickable">{{'third' | i18n}}</th>
+      <th ng-click="toggleSort('losses')" class="clickable">{{'losses' | i18n}}</th>
+      <th ng-click="toggleSort('ties')" class="clickable">{{'ties' | i18n}}</th>
+      <th ng-click="toggleSort('total')" class="clickable">{{'total' | i18n}}</th>
     </tr>
     <tr ng-repeat="user in users | orderBy:predicate():reverse" class="repeated-item">
       <td>
